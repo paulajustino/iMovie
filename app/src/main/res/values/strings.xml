@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">iMovie</string>
+    <string name="title_details_movie">Detalhes</string>
+    <string name="title_favorites_movie">Meus Favoritos</string>
 </resources>

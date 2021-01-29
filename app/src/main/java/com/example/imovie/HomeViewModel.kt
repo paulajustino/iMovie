@@ -1,6 +1,7 @@
 package com.example.imovie
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -66,5 +67,21 @@ class HomeViewModel : ViewModel() {
 
         _sections.value = listOf(section)
         homeResult.value = HomeResult.Success(listOf(section))
+    }
+
+    fun addFavorite() {
+        addFavoriteMovies()
+    }
+
+    private fun addFavoriteMovies() {
+        Log.i("HomeViewModel", "addFavoriteMoviesButton clicked")
+    }
+
+    fun details() {
+        movieDetails()
+    }
+
+    private fun movieDetails() {
+        Log.i("HomeViewModel", "movieDetailsButton clicked")
     }
 }

@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class HomeFragment: Fragment() {
@@ -26,6 +26,12 @@ class HomeFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val addFavoriteMoviesButton = view.findViewById<Button>(R.id.button_add_favorite)
+        val movieDetailsButton = view.findViewById<Button>(R.id.button_movie_details)
+
+        addFavoriteMoviesButton.setOnClickListener { viewModel.addFavorite() }
+        movieDetailsButton.setOnClickListener { viewModel.details() }
 
         val adapterSection = SectionListAdapter()
 
