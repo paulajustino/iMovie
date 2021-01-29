@@ -75,7 +75,6 @@ class HomeViewModel : ViewModel() {
 
     private fun addFavoriteMovies() {
         Log.i("HomeViewModel", "addFavoriteMoviesButton clicked")
-
     }
 
     fun details() {

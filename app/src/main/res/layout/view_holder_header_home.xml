@@ -12,35 +12,22 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <Button
         android:id="@+id/button_add_favorite"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
+        style="@style/ButtonHome"
         android:drawableTop="@android:drawable/ic_menu_add"
-        android:fontFamily="sans-serif-condensed-medium"
         android:text="@string/title_favorites_movie"
-        android:textAlignment="center"
-        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/button_movie_details"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button_movie_details"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
+        style="@style/ButtonHome"
         android:drawableTop="@android:drawable/ic_menu_info_details"
-        android:fontFamily="sans-serif-condensed-medium"
         android:text="@string/title_details_movie"
-        android:textAlignment="center"
-        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/button_add_favorite" />
