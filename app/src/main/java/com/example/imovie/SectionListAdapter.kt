@@ -31,6 +31,7 @@ class SectionListAdapter : ListAdapter<Section, SectionListAdapter.SectionViewHo
 
         init {
             recyclerViewHorizontal.adapter = adapterCarousel
+            recyclerViewHorizontal.isNestedScrollingEnabled = false
         }
 
         fun bind(section: Section) {

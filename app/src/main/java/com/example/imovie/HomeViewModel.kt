@@ -65,7 +65,7 @@ class HomeViewModel : ViewModel() {
             listMovies = movieList
         )
 
-        _sections.value = listOf(section)
+        _sections.value = listOf(section, section, section, section)
         homeResult.value = HomeResult.Success(listOf(section))
     }
 
