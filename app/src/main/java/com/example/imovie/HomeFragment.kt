@@ -1,6 +1,7 @@
 package com.example.imovie
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,8 +41,12 @@ class HomeFragment: Fragment() {
 
         viewModel.fetch()
 
-        viewModel.sections.observe(this, Observer { newSections ->
-            adapterSection.submitList(newSections)
+        viewModel.homeResult.observe(viewLifecycleOwner, Observer { result ->
+            when (result) {
+                HomeResult.Loading -> Log.i("HomeFragment", "loading")
+                HomeResult.Error -> Log.i("HomeFragment", "error")
+                is HomeResult.Success -> adapterSection.submitList(result.sections)
+            }
         })
     }
 }
