@@ -1,7 +1,6 @@
 package com.example.imovie
 
-import com.example.imovie.service.Response
-import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
@@ -17,11 +16,11 @@ private val retrofit = Retrofit.Builder()
 interface TheMovieDbApiService {
 
     @GET("movie/popular")
-    fun getPopularMovies(
+    suspend fun getPopularMovies(
         @Query("api_key") apiKey: String,
         @Query("language") language: String,
         @Query("page") page: String
-    ): Call<Response>
+    ): Response<TheMovieDbResponse>
 }
 
 /**
