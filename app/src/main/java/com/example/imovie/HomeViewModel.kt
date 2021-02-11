@@ -1,15 +1,10 @@
 package com.example.imovie
 
 import android.util.Log
-import android.widget.Toast
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.imovie.service.MovieResponse
-import com.example.imovie.service.Response as ResponseAll
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 
 sealed class HomeResult {
     object Loading : HomeResult()
@@ -20,10 +15,9 @@ sealed class HomeResult {
 
 class HomeViewModel : ViewModel() {
 
+    private val theMovieDbUseCase: TheMovieDbUseCase = TheMovieDbUseCase()
+
     val homeResult = MutableLiveData<HomeResult>()
-    private val _sections = MutableLiveData<List<Section>>()
-    val sections: LiveData<List<Section>>
-        get() = _sections
 
     fun fetch() {
         getPopularMovies()
@@ -31,42 +25,17 @@ class HomeViewModel : ViewModel() {
 
     private fun getPopularMovies() {
         homeResult.value = HomeResult.Loading
-        TheMovieDbApi.retrofitService.getPopularMovies("54c52ec7a5a35959c73721dc3b8dbf25", "pt-BR", "1").enqueue( object: Callback<ResponseAll> {
+        viewModelScope.launch {
+            val result = theMovieDbUseCase.getPopularMovies()
 
-            override fun onFailure(call: Call<ResponseAll>, t: Throwable) {
-                homeResult.value = HomeResult.Error
-                Log.d("HomeViewModel", "falha no request ${t.message}")
-            }
-
-            override fun onResponse(call: Call<ResponseAll>, response: Response<ResponseAll>) {
-                if(response.isSuccessful) {
-                    onSuccess(response.body()?.results.orEmpty())
-                } else {
-                    Log.d("HomeViewModel", "falha no request")
+            homeResult.value = when (result) {
+                is Result.Success -> {
+                    val popularMovieSection = Section("1", "Filmes Populares", result.value)
+                    HomeResult.Success(listOf(popularMovieSection))
                 }
+                is Result.Error -> HomeResult.Error
             }
-        })
-    }
-
-    private fun onSuccess(movies: List<MovieResponse>) {
-
-        val movieList = movies.map {
-            Movie(
-                id = "${it.id}",
-                titleMovie = it.title,
-                imageUrl = "https://image.tmdb.org/t/p/w92" + it.posterPath,
-                descriptionMovie = it.overview
-            )
         }
-
-        val section = Section(
-            id = "1",
-            titleSection = "Filmes Populares",
-            listMovies = movieList
-        )
-
-        _sections.value = listOf(section, section, section, section)
-        homeResult.value = HomeResult.Success(listOf(section))
     }
 
     fun addFavorite() {
