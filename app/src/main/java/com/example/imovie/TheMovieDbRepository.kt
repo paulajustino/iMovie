@@ -7,12 +7,19 @@ class TheMovieDbRepository {
         return remoteDataSource.getPopularMovies()
     }
 
-//    suspend fun getSimilarMovies(movieId: String) {
-//        remoteDataSource.getSimilarMovies(movieId)
-//    }
-//
-//    suspend fun getMovieDetails(movieId: String) {
-//        remoteDataSource.getMovieDetails(movieId)
-//    }
+    suspend fun getLatestMovies() : Result<List<Movie>, NetworkError> {
+        return remoteDataSource.getLatestMovies()
+    }
 
+    suspend fun getNowPlayingMovies() : Result<List<Movie>, NetworkError> {
+        return remoteDataSource.getNowPlayingMovies()
+    }
+
+    suspend fun getTopRatedMovies() : Result<List<Movie>, NetworkError> {
+        return remoteDataSource.getTopRatedMovies()
+    }
+
+    suspend fun getUpcomingMovies() : Result<List<Movie>, NetworkError> {
+        return remoteDataSource.getUpcomingMovies()
+    }
 }

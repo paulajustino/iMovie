@@ -15,7 +15,7 @@ sealed class HomeResult {
 
 class HomeViewModel : ViewModel() {
 
-    private val theMovieDbUseCase: TheMovieDbUseCase = TheMovieDbUseCase()
+    private val homeUseCase: HomeUseCase = HomeUseCase()
 
     val homeResult = MutableLiveData<HomeResult>()
 
@@ -26,12 +26,11 @@ class HomeViewModel : ViewModel() {
     private fun getPopularMovies() {
         homeResult.value = HomeResult.Loading
         viewModelScope.launch {
-            val result = theMovieDbUseCase.getPopularMovies()
+            val result = homeUseCase.getHomeList()
 
             homeResult.value = when (result) {
                 is Result.Success -> {
-                    val popularMovieSection = Section("1", "Filmes Populares", result.value)
-                    HomeResult.Success(listOf(popularMovieSection))
+                    HomeResult.Success(result.value)
                 }
                 is Result.Error -> HomeResult.Error
             }
