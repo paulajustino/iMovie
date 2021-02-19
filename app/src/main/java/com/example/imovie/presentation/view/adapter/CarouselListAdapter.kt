@@ -1,16 +1,17 @@
-package com.example.imovie
+package com.example.imovie.presentation.view.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import com.example.imovie.Movie
+import com.example.imovie.R
+import com.example.imovie.utils.load
 
-class CarouselListAdapter : ListAdapter<Movie, CarouselListAdapter.CarouselViewHolder> (CarouselsItemDiffCallback) {
+class CarouselListAdapter : ListAdapter<Movie, CarouselListAdapter.CarouselViewHolder>(CarouselsItemDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarouselViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -28,9 +29,9 @@ class CarouselListAdapter : ListAdapter<Movie, CarouselListAdapter.CarouselViewH
         private val movieImageView = itemView.findViewById<ImageView>(R.id.image_movie)
 
         fun bind(movie: Movie) {
-            Glide.with(movieImageView)
-                    .load(movie.imageUrl)
-                    .into(movieImageView);
+            if (movie.posterPath != null) {
+                movieImageView.load(movie.posterPath)
+            }
         }
     }
 }
@@ -40,6 +41,7 @@ object CarouselsItemDiffCallback : DiffUtil.ItemCallback<Movie>() {
             oldItem: Movie,
             newItem: Movie
     ): Boolean = oldItem.id == newItem.id
+
     override fun areContentsTheSame(
             oldItem: Movie,
             newItem: Movie

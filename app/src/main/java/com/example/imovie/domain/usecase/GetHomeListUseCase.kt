@@ -1,8 +1,11 @@
-package com.example.imovie
+package com.example.imovie.domain.usecase
 
+import com.example.imovie.*
+import com.example.imovie.data.repository.TheMovieDbRepository
+import com.example.imovie.utils.Result
 import kotlinx.coroutines.*
 
-class HomeUseCase {
+class GetHomeListUseCase {
     private val theMovieDbRepository: TheMovieDbRepository = TheMovieDbRepository()
 
     suspend fun getHomeList(): Result<List<Section>, NetworkError> {

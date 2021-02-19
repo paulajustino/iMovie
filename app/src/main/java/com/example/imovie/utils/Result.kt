@@ -1,4 +1,4 @@
-package com.example.imovie
+package com.example.imovie.utils
 
 sealed class Result <out D, out E> {
     data class Success <D> (val value: D) : Result<D, Nothing>()

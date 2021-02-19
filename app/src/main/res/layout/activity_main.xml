@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/home"
-        android:name="com.example.imovie.HomeFragment"
+        android:name="com.example.imovie.presentation.view.fragment.HomeFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout="@layout/fragment_home" />
