@@ -28,9 +28,9 @@ class HomeFragment : Fragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         // Inflate the layout for this fragment
@@ -78,8 +78,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun addImageOnHeader(movie: Movie) {
-        val imageView = view?.findViewById<ImageView>(R.id.image_header)
         if (movie.posterPath != null) {
+            val imageView = view?.findViewById<ImageView>(R.id.image_header)
             imageView?.load(movie.posterPath)
         }
     }

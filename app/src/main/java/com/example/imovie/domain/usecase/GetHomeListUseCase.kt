@@ -25,7 +25,12 @@ class GetHomeListUseCase {
                     topRatedMoviesReturn, upcomingMoviesReturn
             ).mapNotNull {
                 if (it is Result.Success && it.value.listMovies.isNotEmpty()) {
-                    it.value
+                    val movies = filterMoviesWithPosterPath(it.value.listMovies)
+                    if (movies.isNotEmpty()) {
+                        it.value.copy(listMovies = movies)
+                    } else {
+                        null
+                    }
                 } else {
                     null
                 }
@@ -44,5 +49,9 @@ class GetHomeListUseCase {
             is Result.Success -> Result.Success(Section(sectionId, sectionTitle, this.value))
             is Result.Error -> this
         }
+    }
+
+    private fun filterMoviesWithPosterPath(listMovies: List<Movie>): List<Movie> {
+        return listMovies.filter { it.posterPath != null }
     }
 }

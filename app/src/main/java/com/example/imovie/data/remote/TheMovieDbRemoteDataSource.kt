@@ -11,13 +11,15 @@ import kotlinx.coroutines.withContext
 
 class TheMovieDbRemoteDataSource {
     private val theMovieApi: TheMovieDbApi = TheMovieDbApi
-    private val movieListMapper: MovieListResponseToMovieModelMapper = MovieListResponseToMovieModelMapper()
+    private val movieListMapper: MovieListResponseToMovieModelMapper =
+        MovieListResponseToMovieModelMapper()
 
     suspend fun getPopularMovies(): Result<List<Movie>, NetworkError> {
         return withContext(Dispatchers.IO) {
-            val response = theMovieApi.retrofitService.getPopularMovies(Constants.API_KEY, Constants.LANGUAGE)
+            val response =
+                theMovieApi.retrofitService.getPopularMovies(Constants.API_KEY, Constants.LANGUAGE)
             if (response.isSuccessful) {
-                val data = movieListMapper.mapListFrom(response.body()).filter { it.posterPath != null }
+                val data = movieListMapper.mapListFrom(response.body())
                 Result.Success(data)
             } else {
                 Result.Error(NetworkError())
@@ -27,9 +29,12 @@ class TheMovieDbRemoteDataSource {
 
     suspend fun getNowPlayingMovies(): Result<List<Movie>, NetworkError> {
         return withContext(Dispatchers.IO) {
-            val response = theMovieApi.retrofitService.getNowPlayingMovies(Constants.API_KEY, Constants.LANGUAGE)
+            val response = theMovieApi.retrofitService.getNowPlayingMovies(
+                Constants.API_KEY,
+                Constants.LANGUAGE
+            )
             if (response.isSuccessful) {
-                val data = movieListMapper.mapListFrom(response.body()).filter { it.posterPath != null }
+                val data = movieListMapper.mapListFrom(response.body())
                 Result.Success(data)
             } else {
                 Result.Error(NetworkError())
@@ -39,9 +44,10 @@ class TheMovieDbRemoteDataSource {
 
     suspend fun getTopRatedMovies(): Result<List<Movie>, NetworkError> {
         return withContext(Dispatchers.IO) {
-            val response = theMovieApi.retrofitService.getTopRatedMovies(Constants.API_KEY, Constants.LANGUAGE)
+            val response =
+                theMovieApi.retrofitService.getTopRatedMovies(Constants.API_KEY, Constants.LANGUAGE)
             if (response.isSuccessful) {
-                val data = movieListMapper.mapListFrom(response.body()).filter { it.posterPath != null }
+                val data = movieListMapper.mapListFrom(response.body())
                 Result.Success(data)
             } else {
                 Result.Error(NetworkError())
@@ -51,9 +57,10 @@ class TheMovieDbRemoteDataSource {
 
     suspend fun getUpcomingMovies(): Result<List<Movie>, NetworkError> {
         return withContext(Dispatchers.IO) {
-            val response = theMovieApi.retrofitService.getUpcomingMovies(Constants.API_KEY, Constants.LANGUAGE)
+            val response =
+                theMovieApi.retrofitService.getUpcomingMovies(Constants.API_KEY, Constants.LANGUAGE)
             if (response.isSuccessful) {
-                val data = movieListMapper.mapListFrom(response.body()).filter { it.posterPath != null }
+                val data = movieListMapper.mapListFrom(response.body())
                 Result.Success(data)
             } else {
                 Result.Error(NetworkError())
