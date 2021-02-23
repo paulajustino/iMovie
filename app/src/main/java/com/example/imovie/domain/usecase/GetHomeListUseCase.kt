@@ -8,7 +8,7 @@ import kotlinx.coroutines.*
 class GetHomeListUseCase {
     private val theMovieDbRepository: TheMovieDbRepository = TheMovieDbRepository()
 
-    suspend fun getHomeList(): Result<List<Section>, NetworkError> {
+    suspend fun getHomeList(): Result<List<SectionModel>, NetworkError> {
         return withContext(Dispatchers.IO) {
             val popularMovies = async { theMovieDbRepository.getPopularMovies() }
             val nowPlayingMovies = async { theMovieDbRepository.getNowPlayingMovies() }
@@ -44,14 +44,14 @@ class GetHomeListUseCase {
         }
     }
 
-    private fun Result<List<Movie>, NetworkError>.mapMovieListToSection(sectionId: String, sectionTitle: String): Result<Section, NetworkError> {
+    private fun Result<List<MovieModel>, NetworkError>.mapMovieListToSection(sectionId: String, sectionTitle: String): Result<SectionModel, NetworkError> {
         return when (this) {
-            is Result.Success -> Result.Success(Section(sectionId, sectionTitle, this.value))
+            is Result.Success -> Result.Success(SectionModel(sectionId, sectionTitle, this.value))
             is Result.Error -> this
         }
     }
 
-    private fun filterMoviesWithPosterPath(listMovies: List<Movie>): List<Movie> {
+    private fun filterMoviesWithPosterPath(listMovies: List<MovieModel>): List<MovieModel> {
         return listMovies.filter { it.posterPath != null }
     }
 }

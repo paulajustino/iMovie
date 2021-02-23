@@ -1,8 +1,8 @@
 package com.example.imovie
 
-data class Section (
+data class SectionUiModel (
 
     val id: String,
     val titleSection: String,
-    val listMovies: List<Movie>
+    val listMovies: List<MovieModel>
 )
