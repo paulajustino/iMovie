@@ -11,12 +11,13 @@ import com.example.imovie.Movie
 import com.example.imovie.R
 import com.example.imovie.utils.load
 
-class CarouselListAdapter : ListAdapter<Movie, CarouselListAdapter.CarouselViewHolder>(CarouselsItemDiffCallback) {
+class CarouselListAdapter :
+    ListAdapter<Movie, CarouselListAdapter.CarouselViewHolder>(CarouselsItemDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarouselViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = layoutInflater
-                .inflate(R.layout.view_holder_carousel_home, parent, false)
+            .inflate(R.layout.view_holder_carousel_home, parent, false)
         return CarouselViewHolder(view)
     }
 
@@ -31,6 +32,8 @@ class CarouselListAdapter : ListAdapter<Movie, CarouselListAdapter.CarouselViewH
         fun bind(movie: Movie) {
             if (movie.posterPath != null) {
                 movieImageView.load(movie.posterPath)
+            } else {
+                movieImageView.setImageDrawable(null)
             }
         }
     }
@@ -38,12 +41,12 @@ class CarouselListAdapter : ListAdapter<Movie, CarouselListAdapter.CarouselViewH
 
 object CarouselsItemDiffCallback : DiffUtil.ItemCallback<Movie>() {
     override fun areItemsTheSame(
-            oldItem: Movie,
-            newItem: Movie
+        oldItem: Movie,
+        newItem: Movie
     ): Boolean = oldItem.id == newItem.id
 
     override fun areContentsTheSame(
-            oldItem: Movie,
-            newItem: Movie
+        oldItem: Movie,
+        newItem: Movie
     ): Boolean = oldItem == newItem
 }
