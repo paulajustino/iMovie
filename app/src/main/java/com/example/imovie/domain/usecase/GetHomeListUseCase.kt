@@ -1,8 +1,11 @@
-package com.example.imovie
+package com.example.imovie.domain.usecase
 
+import com.example.imovie.*
+import com.example.imovie.data.repository.TheMovieDbRepository
+import com.example.imovie.utils.Result
 import kotlinx.coroutines.*
 
-class HomeUseCase {
+class GetHomeListUseCase {
     private val theMovieDbRepository: TheMovieDbRepository = TheMovieDbRepository()
 
     suspend fun getHomeList(): Result<List<Section>, NetworkError> {
@@ -22,7 +25,12 @@ class HomeUseCase {
                     topRatedMoviesReturn, upcomingMoviesReturn
             ).mapNotNull {
                 if (it is Result.Success && it.value.listMovies.isNotEmpty()) {
-                    it.value
+                    val movies = filterMoviesWithPosterPath(it.value.listMovies)
+                    if (movies.isNotEmpty()) {
+                        it.value.copy(listMovies = movies)
+                    } else {
+                        null
+                    }
                 } else {
                     null
                 }
@@ -41,5 +49,9 @@ class HomeUseCase {
             is Result.Success -> Result.Success(Section(sectionId, sectionTitle, this.value))
             is Result.Error -> this
         }
+    }
+
+    private fun filterMoviesWithPosterPath(listMovies: List<Movie>): List<Movie> {
+        return listMovies.filter { it.posterPath != null }
     }
 }

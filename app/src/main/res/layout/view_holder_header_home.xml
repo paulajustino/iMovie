@@ -6,10 +6,10 @@
     android:background="@color/black">
 
     <ImageView
+        android:id="@+id/image_header"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintDimensionRatio="2:3"
-        android:src="@drawable/black_panther"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

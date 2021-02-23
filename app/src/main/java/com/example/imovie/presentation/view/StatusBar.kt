@@ -1,4 +1,4 @@
-package com.example.imovie
+package com.example.imovie.presentation.view
 
 import android.content.Context
 import androidx.fragment.app.Fragment

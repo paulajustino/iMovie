@@ -1,13 +1,14 @@
-package com.example.imovie
+package com.example.imovie.presentation.view.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.imovie.R
+import com.example.imovie.Section
 
 class SectionListAdapter : ListAdapter<Section, SectionListAdapter.SectionViewHolder>(SectionsItemDiffCallback) {
 
@@ -43,11 +44,11 @@ class SectionListAdapter : ListAdapter<Section, SectionListAdapter.SectionViewHo
 
 object SectionsItemDiffCallback : DiffUtil.ItemCallback<Section>() {
     override fun areItemsTheSame(
-        oldItem: Section,
-        newItem: Section
+            oldItem: Section,
+            newItem: Section
     ): Boolean = oldItem.id == newItem.id
     override fun areContentsTheSame(
-        oldItem: Section,
-        newItem: Section
+            oldItem: Section,
+            newItem: Section
     ): Boolean = oldItem == newItem
 }

@@ -1,8 +1,8 @@
-package com.example.imovie
+package com.example.imovie.data.api
 
 import com.squareup.moshi.Json
 
-data class TheMovieDbResponse(
+data class MovieListResponse(
 
         @field:Json(name="results")
         val results: List<MovieResponse>
