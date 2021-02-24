@@ -7,11 +7,11 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.imovie.MovieModel
+import com.example.imovie.MovieUiModel
 import com.example.imovie.R
 import com.example.imovie.utils.load
 
-class CarouselListAdapter : ListAdapter<MovieModel, CarouselListAdapter.CarouselViewHolder>(CarouselsItemDiffCallback) {
+class CarouselListAdapter : ListAdapter<MovieUiModel, CarouselListAdapter.CarouselViewHolder>(CarouselsItemDiffCallback) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarouselViewHolder {
@@ -29,7 +29,7 @@ class CarouselListAdapter : ListAdapter<MovieModel, CarouselListAdapter.Carousel
     class CarouselViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val movieImageView = itemView.findViewById<ImageView>(R.id.image_movie)
 
-        fun bind(movie: MovieModel) {
+        fun bind(movie: MovieUiModel) {
             if (movie.posterPath != null) {
                 movieImageView.load(movie.posterPath)
             } else {
@@ -39,14 +39,14 @@ class CarouselListAdapter : ListAdapter<MovieModel, CarouselListAdapter.Carousel
     }
 }
 
-object CarouselsItemDiffCallback : DiffUtil.ItemCallback<MovieModel>() {
+object CarouselsItemDiffCallback : DiffUtil.ItemCallback<MovieUiModel>() {
     override fun areItemsTheSame(
-        oldItem: MovieModel,
-        newItem: MovieModel
+        oldItem: MovieUiModel,
+        newItem: MovieUiModel
     ): Boolean = oldItem.id == newItem.id
 
     override fun areContentsTheSame(
-        oldItem: MovieModel,
-        newItem: MovieModel
+        oldItem: MovieUiModel,
+        newItem: MovieUiModel
     ): Boolean = oldItem == newItem
 }

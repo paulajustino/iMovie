@@ -4,12 +4,16 @@ import com.example.imovie.SectionModel
 import com.example.imovie.SectionUiModel
 
 class SectionModelToUiModelMapper {
+    private val movieUiModelMapper = MovieModelToUiModelMapper()
+
     fun mapFrom(from: List<SectionModel>): List<SectionUiModel> {
-        return from.map {
+        return from.map { sectionModel ->
             SectionUiModel(
-                id = it.id,
-                titleSection = it.titleSection,
-                listMovies = it.listMovies
+                id = sectionModel.id,
+                titleSection = sectionModel.titleSection,
+                listMovies = sectionModel.listMovies.map {
+                    movieUiModelMapper.mapFrom(it)
+                }
             )
         }
     }

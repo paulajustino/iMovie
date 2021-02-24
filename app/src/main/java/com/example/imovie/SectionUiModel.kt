@@ -4,5 +4,5 @@ data class SectionUiModel (
 
     val id: String,
     val titleSection: String,
-    val listMovies: List<MovieModel>
+    val listMovies: List<MovieUiModel>
 )
