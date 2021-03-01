@@ -8,9 +8,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.imovie.R
-import com.example.imovie.Section
+import com.example.imovie.SectionUiModel
 
-class SectionListAdapter : ListAdapter<Section, SectionListAdapter.SectionViewHolder>(SectionsItemDiffCallback) {
+class SectionListAdapter :
+    ListAdapter<SectionUiModel, SectionListAdapter.SectionViewHolder>(SectionsItemDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SectionViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -28,27 +29,29 @@ class SectionListAdapter : ListAdapter<Section, SectionListAdapter.SectionViewHo
 
         private val titleTextView = itemView.findViewById<TextView>(R.id.title_section)
         private val adapterCarousel = CarouselListAdapter()
-        private val recyclerViewHorizontal = itemView.findViewById<RecyclerView>(R.id.recycler_view_carousel)
+        private val recyclerViewHorizontal =
+            itemView.findViewById<RecyclerView>(R.id.recycler_view_carousel)
 
         init {
             recyclerViewHorizontal.adapter = adapterCarousel
             recyclerViewHorizontal.isNestedScrollingEnabled = false
         }
 
-        fun bind(section: Section) {
+        fun bind(section: SectionUiModel) {
             titleTextView.text = section.titleSection
             adapterCarousel.submitList(section.listMovies)
         }
     }
 }
 
-object SectionsItemDiffCallback : DiffUtil.ItemCallback<Section>() {
+object SectionsItemDiffCallback : DiffUtil.ItemCallback<SectionUiModel>() {
     override fun areItemsTheSame(
-            oldItem: Section,
-            newItem: Section
+        oldItem: SectionUiModel,
+        newItem: SectionUiModel
     ): Boolean = oldItem.id == newItem.id
+
     override fun areContentsTheSame(
-            oldItem: Section,
-            newItem: Section
+        oldItem: SectionUiModel,
+        newItem: SectionUiModel
     ): Boolean = oldItem == newItem
 }

@@ -12,7 +12,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.example.imovie.*
+import com.example.imovie.MovieUiModel
+import com.example.imovie.R
 import com.example.imovie.presentation.view.adapter.SectionListAdapter
 import com.example.imovie.presentation.view.statusBarHeightOverCard
 import com.example.imovie.presentation.viewmodel.HomeResult
@@ -77,7 +78,7 @@ class HomeFragment : Fragment() {
         })
     }
 
-    private fun addImageOnHeader(movie: Movie) {
+    private fun addImageOnHeader(movie: MovieUiModel) {
         if (movie.posterPath != null) {
             val imageView = view?.findViewById<ImageView>(R.id.image_header)
             imageView?.load(movie.posterPath)

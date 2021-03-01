@@ -4,9 +4,11 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.imovie.Movie
-import com.example.imovie.Section
+import com.example.imovie.MovieUiModel
+import com.example.imovie.SectionUiModel
 import com.example.imovie.domain.usecase.GetHomeListUseCase
+import com.example.imovie.presentation.mapper.MovieModelToUiModelMapper
+import com.example.imovie.presentation.mapper.SectionModelToUiModelMapper
 import com.example.imovie.utils.Result
 import kotlinx.coroutines.launch
 
@@ -14,15 +16,17 @@ sealed class HomeResult {
     object Loading : HomeResult()
     object Error : HomeResult()
 
-    data class Success(val sections: List<Section>) : HomeResult()
+    data class Success(val sections: List<SectionUiModel>) : HomeResult()
 }
 
 class HomeViewModel : ViewModel() {
 
     private val getHomeListUseCase: GetHomeListUseCase = GetHomeListUseCase()
+    private val movieUiModelMapper: MovieModelToUiModelMapper = MovieModelToUiModelMapper()
+    private val sectionUiModelMapper: SectionModelToUiModelMapper = SectionModelToUiModelMapper()
 
     val homeResult = MutableLiveData<HomeResult>()
-    val homeHeaderResult = MutableLiveData<Movie>()
+    val homeHeaderResult = MutableLiveData<MovieUiModel>()
 
     fun fetch() {
         getHomeList()
@@ -35,15 +39,16 @@ class HomeViewModel : ViewModel() {
 
             homeResult.value = when (result) {
                 is Result.Success -> {
-                    setHeaderMovie(result.value.random().listMovies.random())
-                    HomeResult.Success(result.value)
+                    val movieRandom = result.value.random().listMovies.random()
+                    setHeaderMovie(movieUiModelMapper.mapFrom(movieRandom))
+                    HomeResult.Success(sectionUiModelMapper.mapFrom(result.value))
                 }
                 is Result.Error -> HomeResult.Error
             }
         }
     }
 
-    private fun setHeaderMovie(movie: Movie) {
+    private fun setHeaderMovie(movie: MovieUiModel) {
         homeHeaderResult.value = movie
     }
 
