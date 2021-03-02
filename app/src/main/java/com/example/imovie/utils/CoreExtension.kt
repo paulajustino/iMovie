@@ -9,6 +9,7 @@ import androidx.core.view.marginLeft
 import androidx.core.view.marginRight
 import androidx.core.view.marginTop
 import com.bumptech.glide.Glide
+import kotlin.random.Random
 
 fun View.setMargin(left: Int? = null, top: Int? = null, right: Int? = null, bottom: Int? = null) {
     val params = (layoutParams as? ViewGroup.MarginLayoutParams)
@@ -37,3 +38,9 @@ fun View.imagePresets(): ImagePresets {
 
 val Int.dp: Int
     get() = (this / Resources.getSystem().displayMetrics.density).toInt()
+
+fun <T> Collection<T>.randomOrNull(): T? {
+    if (isEmpty())
+        return null
+    return random()
+}
