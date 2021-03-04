@@ -7,14 +7,11 @@ class MovieListResponseToMovieModelMapper constructor(
     private val movieMapper: MovieResponseToMovieModelMapper = MovieResponseToMovieModelMapper()
 ) {
     fun mapListFrom(from: MovieListResponse?): List<MovieModel> {
-        val movieListResponse = from?.results ?: emptyList()
 
-        return if (movieListResponse.isNotEmpty()) {
-            movieListResponse.map {
-                movieMapper.mapFrom(it)
-            }
-        } else {
-            emptyList()
-        }
+        return from?.results?.map {
+            movieMapper.mapFrom(it)
+        } ?: emptyList()
     }
 }
+
+

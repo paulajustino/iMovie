@@ -5,8 +5,8 @@ import com.example.imovie.data.api.MovieListResponse
 import com.example.imovie.data.api.MovieResponse
 import io.mockk.every
 import io.mockk.mockk
-import junit.framework.Assert.assertEquals
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class MovieListResponseToMovieModelMapperTest {
 
@@ -16,7 +16,7 @@ class MovieListResponseToMovieModelMapperTest {
     )
 
     @Test
-    fun mapListFrom_ValidMovieListResponse_shouldCreateMovieModelList() {
+    fun mapListFrom_validMovieListResponse_shouldReturnMovieModelList() {
 
         val movieMapperResult = MovieModel(
             id = "1",
@@ -38,16 +38,16 @@ class MovieListResponseToMovieModelMapperTest {
             )
         )
 
-        val expected = mapper.mapListFrom(movieListResponse)
+        val actual = mapper.mapListFrom(movieListResponse)
 
-        assertEquals(expected[0].id, movieListResponse.results[0].id.toString())
-        assertEquals(expected[0].titleMovie, movieListResponse.results[0].title)
-        assertEquals(expected[0].posterPath, movieListResponse.results[0].posterPath)
-        assertEquals(expected[0].descriptionMovie, movieListResponse.results[0].overview)
+        assertEquals(
+            expected = movieMapperResult,
+            actual = actual.first()
+        )
     }
 
     @Test
-    fun mapListFrom_ValidMovieListPosterPathNull_shouldCreateMovieModelList() {
+    fun mapListFrom_movieListResponseWithPosterPathNull_shouldReturnMovieModelList() {
         val movieMapperResult = MovieModel(
             id = "1",
             titleMovie = "title",
@@ -68,32 +68,38 @@ class MovieListResponseToMovieModelMapperTest {
             )
         )
 
-        val expected = mapper.mapListFrom(movieListResponse)
+        val actual = mapper.mapListFrom(movieListResponse)
 
-        assertEquals(expected[0].id, movieListResponse.results[0].id.toString())
-        assertEquals(expected[0].titleMovie, movieListResponse.results[0].title)
-        assertEquals(expected[0].posterPath, movieListResponse.results[0].posterPath)
-        assertEquals(expected[0].descriptionMovie, movieListResponse.results[0].overview)
+        assertEquals(
+            expected = movieMapperResult,
+            actual = actual.first()
+        )
     }
 
     @Test
-    fun mapListFrom_ValidMovieListResultsEmpty_shouldCreateMovieModelList() {
+    fun mapListFrom_movieListResultsEmpty_shouldReturnEmptyList() {
         val movieListResponse = MovieListResponse(
             results = emptyList()
         )
 
-        val expected = mapper.mapListFrom(movieListResponse)
+        val actual = mapper.mapListFrom(movieListResponse)
 
-        assertEquals(expected, movieListResponse.results)
+        assertEquals(
+            expected = emptyList(),
+            actual = actual
+        )
     }
 
     @Test
-    fun mapListFrom_ValidMovieListNull_shouldCreateMovieModelList() {
+    fun mapListFrom_movieListResponseNull_shouldReturnEmptyList() {
         val movieListResponse = null
 
-        val expected = mapper.mapListFrom(movieListResponse)
+        val actual = mapper.mapListFrom(movieListResponse)
 
-        assertEquals(expected, emptyList<MovieListResponse>())
+        assertEquals(
+            expected = emptyList(),
+            actual = actual
+        )
     }
 
     private fun prepareScenario(

@@ -3,10 +3,11 @@ package com.example.imovie.presentation.mapper
 import com.example.imovie.MovieModel
 import com.example.imovie.MovieUiModel
 import com.example.imovie.SectionModel
+import com.example.imovie.SectionUiModel
 import io.mockk.every
 import io.mockk.mockk
-import junit.framework.Assert
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class SectionModelToUiModelMapperTest {
 
@@ -16,7 +17,15 @@ class SectionModelToUiModelMapperTest {
     )
 
     @Test
-    fun mapFrom_validSectionModelListWithMovieListEmpty_shouldCreateSectionUiModelList() {
+    fun mapFrom_validSectionModelListWithMovieListEmpty_shouldReturnSectionUiModelList() {
+        val expected = listOf(
+            SectionUiModel(
+                id = "1",
+                titleSection = "TitleSection",
+                listMovies = emptyList()
+            )
+        )
+
         val sectionModelList = listOf(
             SectionModel(
                 id = "1",
@@ -25,15 +34,28 @@ class SectionModelToUiModelMapperTest {
             )
         )
 
-        val expected = mapper.mapFrom(sectionModelList)
+        val actual = mapper.mapFrom(sectionModelList)
 
-        Assert.assertEquals(expected[0].id, sectionModelList[0].id)
-        Assert.assertEquals(expected[0].titleSection, sectionModelList[0].titleSection)
-        Assert.assertEquals(expected[0].listMovies, sectionModelList[0].listMovies)
+        assertEquals(expected = expected, actual = actual)
     }
 
     @Test
-    fun mapFrom_validSectionModelListWithMovieListNotEmpty_shouldCreateSectionUiModelList() {
+    fun mapFrom_validSectionModelListWithMovieListNotEmpty_shouldReturnSectionUiModelList() {
+        val movieUiModelList = listOf(
+            MovieUiModel(
+                id = "1",
+                posterPath = "PosterPath"
+            )
+        )
+
+        val expected = listOf(
+            SectionUiModel(
+                id = "1",
+                titleSection = "TitleSection",
+                listMovies = movieUiModelList
+            )
+        )
+
         prepareScenario(
             movieMapperResult = MovieUiModel(
                 id = "1",
@@ -58,11 +80,9 @@ class SectionModelToUiModelMapperTest {
             )
         )
 
-        val expected = mapper.mapFrom(sectionModelList)
+        val actual = mapper.mapFrom(sectionModelList)
 
-        Assert.assertEquals(expected[0].id, sectionModelList[0].id)
-        Assert.assertEquals(expected[0].titleSection, sectionModelList[0].titleSection)
-        Assert.assertEquals(expected[0].listMovies[0].id, sectionModelList[0].listMovies[0].id)
+        assertEquals(expected = expected, actual = actual)
     }
 
     private fun prepareScenario(

@@ -10,11 +10,12 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 @ExperimentalCoroutinesApi
 class HomeViewModelTest {
@@ -53,6 +54,8 @@ class HomeViewModelTest {
                 )
             )
 
+            val expected = HomeResult.Success(sectionUiModelList)
+
             prepareScenario(
                 homeListResult = Result.Success(sectionModelList),
                 sectionUiModelMapperResult = sectionUiModelList
@@ -60,9 +63,7 @@ class HomeViewModelTest {
 
             homeViewModel.fetch()
 
-            val expected = HomeResult.Success(sectionUiModelList)
-
-            assertEquals(expected, homeViewModel.homeResult.value)
+            assertEquals(expected = expected, actual = homeViewModel.homeResult.value)
         }
     }
 
@@ -133,7 +134,7 @@ class HomeViewModelTest {
                 posterPath = "posterPathTeste"
             )
 
-            assertEquals(expected, homeViewModel.homeHeaderResult.value)
+            assertEquals(expected = expected, actual = homeViewModel.homeHeaderResult.value)
         }
     }
 
@@ -152,9 +153,7 @@ class HomeViewModelTest {
 
             homeViewModel.fetch()
 
-            val expected = null
-
-            assertEquals(expected, homeViewModel.homeHeaderResult.value)
+            assertNull(actual = homeViewModel.homeHeaderResult.value)
         }
     }
 
@@ -188,7 +187,7 @@ class HomeViewModelTest {
 
             val expected = HomeResult.Error
 
-            assertEquals(expected, homeViewModel.homeResult.value)
+            assertEquals(expected = expected, actual = homeViewModel.homeResult.value)
         }
     }
 

@@ -1,15 +1,23 @@
 package com.example.imovie.data.mapper
 
+import com.example.imovie.MovieModel
 import com.example.imovie.data.api.MovieResponse
-import junit.framework.Assert
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class MovieResponseToMovieModelMapperTest {
 
     private val mapper = MovieResponseToMovieModelMapper()
 
     @Test
-    fun mapFrom_ValidMovieResponse_shouldCreateMovieModel() {
+    fun mapFrom_validMovieResponse_shouldReturnMovieModel() {
+        val expected = MovieModel(
+            id = "1",
+            titleMovie = "title",
+            posterPath = "posterPath",
+            descriptionMovie = "overview"
+        )
+
         val movieResponse = MovieResponse(
             id = 1,
             title = "title",
@@ -17,16 +25,23 @@ class MovieResponseToMovieModelMapperTest {
             overview = "overview"
         )
 
-        val expected = mapper.mapFrom(movieResponse)
+        val actual = mapper.mapFrom(movieResponse)
 
-        Assert.assertEquals(expected.id, movieResponse.id.toString())
-        Assert.assertEquals(expected.titleMovie, movieResponse.title)
-        Assert.assertEquals(expected.posterPath, movieResponse.posterPath)
-        Assert.assertEquals(expected.descriptionMovie, movieResponse.overview)
+        assertEquals(
+            expected = expected,
+            actual = actual
+        )
     }
 
     @Test
-    fun mapFrom_ValidMovieResponsePosterPathNull_shouldCreateMovieModel() {
+    fun mapFrom_movieResponseWithPosterPathNull_shouldReturnMovieModel() {
+        val expected = MovieModel(
+            id = "1",
+            titleMovie = "title",
+            posterPath = null,
+            descriptionMovie = "overview"
+        )
+
         val movieResponse = MovieResponse(
             id = 1,
             title = "title",
@@ -34,11 +49,11 @@ class MovieResponseToMovieModelMapperTest {
             overview = "overview"
         )
 
-        val expected = mapper.mapFrom(movieResponse)
+        val actual = mapper.mapFrom(movieResponse)
 
-        Assert.assertEquals(expected.id, movieResponse.id.toString())
-        Assert.assertEquals(expected.titleMovie, movieResponse.title)
-        Assert.assertEquals(expected.posterPath, movieResponse.posterPath)
-        Assert.assertEquals(expected.descriptionMovie, movieResponse.overview)
+        assertEquals(
+            expected = expected,
+            actual = actual
+        )
     }
 }
