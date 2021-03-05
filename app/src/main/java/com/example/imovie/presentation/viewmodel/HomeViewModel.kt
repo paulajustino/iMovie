@@ -10,6 +10,7 @@ import com.example.imovie.domain.usecase.GetHomeListUseCase
 import com.example.imovie.presentation.mapper.MovieModelToUiModelMapper
 import com.example.imovie.presentation.mapper.SectionModelToUiModelMapper
 import com.example.imovie.utils.Result
+import com.example.imovie.utils.randomOrNull
 import kotlinx.coroutines.launch
 
 sealed class HomeResult {
@@ -19,11 +20,11 @@ sealed class HomeResult {
     data class Success(val sections: List<SectionUiModel>) : HomeResult()
 }
 
-class HomeViewModel : ViewModel() {
-
-    private val getHomeListUseCase: GetHomeListUseCase = GetHomeListUseCase()
-    private val movieUiModelMapper: MovieModelToUiModelMapper = MovieModelToUiModelMapper()
+class HomeViewModel constructor(
+    private val getHomeListUseCase: GetHomeListUseCase = GetHomeListUseCase(),
+    private val movieUiModelMapper: MovieModelToUiModelMapper = MovieModelToUiModelMapper(),
     private val sectionUiModelMapper: SectionModelToUiModelMapper = SectionModelToUiModelMapper()
+) : ViewModel() {
 
     val homeResult = MutableLiveData<HomeResult>()
     val homeHeaderResult = MutableLiveData<MovieUiModel>()
@@ -39,8 +40,11 @@ class HomeViewModel : ViewModel() {
 
             homeResult.value = when (result) {
                 is Result.Success -> {
-                    val movieRandom = result.value.random().listMovies.random()
-                    setHeaderMovie(movieUiModelMapper.mapFrom(movieRandom))
+                    result.value.filter { it.listMovies.isNotEmpty() }
+                        .randomOrNull()?.listMovies?.randomOrNull()?.let {
+                            setHeaderMovie(movieUiModelMapper.mapFrom(it))
+                        }
+
                     HomeResult.Success(sectionUiModelMapper.mapFrom(result.value))
                 }
                 is Result.Error -> HomeResult.Error

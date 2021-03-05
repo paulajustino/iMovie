@@ -20,5 +20,5 @@ data class MovieResponse(
         val overview: String,
 
         @field:Json(name="poster_path")
-        val posterPath: String
+        val posterPath: String?
 )

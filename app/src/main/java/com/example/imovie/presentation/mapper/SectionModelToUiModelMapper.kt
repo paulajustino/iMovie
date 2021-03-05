@@ -3,9 +3,9 @@ package com.example.imovie.presentation.mapper
 import com.example.imovie.SectionModel
 import com.example.imovie.SectionUiModel
 
-class SectionModelToUiModelMapper {
-    private val movieUiModelMapper = MovieModelToUiModelMapper()
-
+class SectionModelToUiModelMapper constructor(
+    private val movieUiModelMapper: MovieModelToUiModelMapper = MovieModelToUiModelMapper()
+) {
     fun mapFrom(from: List<SectionModel>): List<SectionUiModel> {
         return from.map { sectionModel ->
             SectionUiModel(
