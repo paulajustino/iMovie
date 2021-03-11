@@ -1,5 +1,6 @@
 package com.example.imovie.presentation.view.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,10 +10,12 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.imovie.MovieUiModel
+import com.example.imovie.MyApplication
 import com.example.imovie.R
 import com.example.imovie.presentation.view.adapter.SectionListAdapter
 import com.example.imovie.presentation.view.statusBarHeightOverCard
@@ -20,12 +23,23 @@ import com.example.imovie.presentation.viewmodel.HomeResult
 import com.example.imovie.presentation.viewmodel.HomeViewModel
 import com.example.imovie.utils.addMarginTop
 import com.example.imovie.utils.load
+import javax.inject.Inject
 
 class HomeFragment : Fragment() {
 
-    private lateinit var viewModel: HomeViewModel
+    @Inject
+    lateinit var viewModelProviderFactory: ViewModelProvider.Factory
+
+    private val viewModel by viewModels<HomeViewModel> { viewModelProviderFactory }
+
     private val adapterSection by lazy {
         SectionListAdapter()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        (requireActivity().application as? MyApplication)?.appComponent?.inject(this)
     }
 
     override fun onCreateView(
@@ -33,7 +47,6 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false).apply {
             val toolbar = this.findViewById<Toolbar>(R.id.toolbar)
