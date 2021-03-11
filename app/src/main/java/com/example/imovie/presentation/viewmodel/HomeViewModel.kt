@@ -12,6 +12,7 @@ import com.example.imovie.presentation.mapper.SectionModelToUiModelMapper
 import com.example.imovie.utils.Result
 import com.example.imovie.utils.randomOrNull
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 sealed class HomeResult {
     object Loading : HomeResult()
@@ -20,10 +21,10 @@ sealed class HomeResult {
     data class Success(val sections: List<SectionUiModel>) : HomeResult()
 }
 
-class HomeViewModel constructor(
-    private val getHomeListUseCase: GetHomeListUseCase = GetHomeListUseCase(),
-    private val movieUiModelMapper: MovieModelToUiModelMapper = MovieModelToUiModelMapper(),
-    private val sectionUiModelMapper: SectionModelToUiModelMapper = SectionModelToUiModelMapper()
+class HomeViewModel @Inject constructor(
+    private val getHomeListUseCase: GetHomeListUseCase,
+    private val movieUiModelMapper: MovieModelToUiModelMapper,
+    private val sectionUiModelMapper: SectionModelToUiModelMapper
 ) : ViewModel() {
 
     val homeResult = MutableLiveData<HomeResult>()

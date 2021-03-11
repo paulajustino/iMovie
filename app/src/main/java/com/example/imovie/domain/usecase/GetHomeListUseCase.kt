@@ -4,11 +4,18 @@ import com.example.imovie.*
 import com.example.imovie.data.repository.TheMovieDbRepository
 import com.example.imovie.utils.Result
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
-class GetHomeListUseCase {
-    private val theMovieDbRepository: TheMovieDbRepository = TheMovieDbRepository()
+interface GetHomeListUseCase {
 
-    suspend fun getHomeList(): Result<List<SectionModel>, NetworkError> {
+    suspend fun getHomeList(): Result<List<SectionModel>, NetworkError>
+}
+
+class GetHomeList @Inject constructor(
+    private val theMovieDbRepository: TheMovieDbRepository
+) : GetHomeListUseCase {
+
+    override suspend fun getHomeList(): Result<List<SectionModel>, NetworkError> {
         return withContext(Dispatchers.IO) {
             val popularMovies = async { theMovieDbRepository.getPopularMovies() }
             val nowPlayingMovies = async { theMovieDbRepository.getNowPlayingMovies() }
