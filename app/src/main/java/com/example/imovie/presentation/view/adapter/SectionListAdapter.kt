@@ -13,12 +13,11 @@ import kotlinx.android.synthetic.main.view_holder_list_home.view.*
 class SectionListAdapter :
     ListAdapter<SectionUiModel, SectionListAdapter.SectionViewHolder>(SectionsItemDiffCallback) {
 
-    private lateinit var bindingSection: ViewHolderListHomeBinding
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SectionViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        bindingSection = ViewHolderListHomeBinding.inflate(layoutInflater, parent, false)
-        return SectionViewHolder(bindingSection.root)
+        return SectionViewHolder(
+            ViewHolderListHomeBinding.inflate(layoutInflater, parent, false).root
+        )
     }
 
     override fun onBindViewHolder(holder: SectionViewHolder, position: Int) {
@@ -28,17 +27,15 @@ class SectionListAdapter :
 
     class SectionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val titleTextView = itemView.title_section
         private val adapterCarousel = CarouselListAdapter()
-        private val recyclerViewHorizontal = itemView.recycler_view_carousel
 
         init {
-            recyclerViewHorizontal.adapter = adapterCarousel
-            recyclerViewHorizontal.isNestedScrollingEnabled = false
+            itemView.recycler_view_carousel.adapter = adapterCarousel
+            itemView.recycler_view_carousel.isNestedScrollingEnabled = false
         }
 
         fun bind(section: SectionUiModel) {
-            titleTextView.text = section.titleSection
+            itemView.title_section.text = section.titleSection
             adapterCarousel.submitList(section.listMovies)
         }
     }

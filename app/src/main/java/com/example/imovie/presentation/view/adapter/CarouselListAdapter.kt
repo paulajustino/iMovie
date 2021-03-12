@@ -14,12 +14,11 @@ import kotlinx.android.synthetic.main.view_holder_carousel_home.view.*
 class CarouselListAdapter :
     ListAdapter<MovieUiModel, CarouselListAdapter.CarouselViewHolder>(CarouselsItemDiffCallback) {
 
-    private lateinit var bindingCarousel: ViewHolderCarouselHomeBinding
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarouselViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        bindingCarousel = ViewHolderCarouselHomeBinding.inflate(layoutInflater, parent, false)
-        return CarouselViewHolder(bindingCarousel.root)
+        return CarouselViewHolder(
+            ViewHolderCarouselHomeBinding.inflate(layoutInflater, parent, false).root
+        )
     }
 
     override fun onBindViewHolder(holder: CarouselViewHolder, position: Int) {
@@ -28,13 +27,12 @@ class CarouselListAdapter :
     }
 
     class CarouselViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val movieImageView = itemView.image_movie
 
         fun bind(movie: MovieUiModel) {
             if (movie.posterPath != null) {
-                movieImageView.load(movie.posterPath)
+                itemView.image_movie.load(movie.posterPath)
             } else {
-                movieImageView.setImageDrawable(null)
+                itemView.image_movie.setImageDrawable(null)
             }
         }
     }
