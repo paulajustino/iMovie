@@ -3,22 +3,23 @@ package com.example.imovie.presentation.view.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.imovie.MovieUiModel
-import com.example.imovie.R
+import com.example.imovie.databinding.ViewHolderCarouselHomeBinding
 import com.example.imovie.utils.load
+import kotlinx.android.synthetic.main.view_holder_carousel_home.view.*
 
-class CarouselListAdapter : ListAdapter<MovieUiModel, CarouselListAdapter.CarouselViewHolder>(CarouselsItemDiffCallback) {
+class CarouselListAdapter :
+    ListAdapter<MovieUiModel, CarouselListAdapter.CarouselViewHolder>(CarouselsItemDiffCallback) {
 
+    private lateinit var bindingCarousel: ViewHolderCarouselHomeBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarouselViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater
-            .inflate(R.layout.view_holder_carousel_home, parent, false)
-        return CarouselViewHolder(view)
+        bindingCarousel = ViewHolderCarouselHomeBinding.inflate(layoutInflater, parent, false)
+        return CarouselViewHolder(bindingCarousel.root)
     }
 
     override fun onBindViewHolder(holder: CarouselViewHolder, position: Int) {
@@ -27,7 +28,7 @@ class CarouselListAdapter : ListAdapter<MovieUiModel, CarouselListAdapter.Carous
     }
 
     class CarouselViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val movieImageView = itemView.findViewById<ImageView>(R.id.image_movie)
+        private val movieImageView = itemView.image_movie
 
         fun bind(movie: MovieUiModel) {
             if (movie.posterPath != null) {
