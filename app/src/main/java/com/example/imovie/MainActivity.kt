@@ -5,7 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.widget.Toolbar
+import com.example.imovie.databinding.ActivityMainBinding
+import kotlinx.android.synthetic.main.fragment_home.view.*
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,12 +14,13 @@ class MainActivity : AppCompatActivity() {
         (application as? MyApplication)?.appComponent?.inject(this)
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
 
-        val toolBar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolBar)
+        setSupportActionBar(binding.root.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setLogo(R.drawable.ic_launcher_foreground)
+
+        setContentView(binding.root)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

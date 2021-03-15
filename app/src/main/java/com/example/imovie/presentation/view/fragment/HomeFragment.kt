@@ -6,23 +6,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
 import com.example.imovie.MovieUiModel
 import com.example.imovie.MyApplication
-import com.example.imovie.R
+import com.example.imovie.databinding.FragmentHomeBinding
 import com.example.imovie.presentation.view.adapter.SectionListAdapter
 import com.example.imovie.presentation.view.statusBarHeightOverCard
 import com.example.imovie.presentation.viewmodel.HomeResult
 import com.example.imovie.presentation.viewmodel.HomeViewModel
 import com.example.imovie.utils.addMarginTop
 import com.example.imovie.utils.load
+import kotlinx.android.synthetic.main.fragment_home.view.*
 import javax.inject.Inject
 
 class HomeFragment : Fragment() {
@@ -31,6 +28,8 @@ class HomeFragment : Fragment() {
     lateinit var viewModelProviderFactory: ViewModelProvider.Factory
 
     private val viewModel by viewModels<HomeViewModel> { viewModelProviderFactory }
+
+    private lateinit var bindingHomeFragment: FragmentHomeBinding
 
     private val adapterSection by lazy {
         SectionListAdapter()
@@ -48,9 +47,9 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false).apply {
-            val toolbar = this.findViewById<Toolbar>(R.id.toolbar)
-            toolbar.addMarginTop(statusBarHeightOverCard())
+        bindingHomeFragment = FragmentHomeBinding.inflate(inflater, container, false)
+        return bindingHomeFragment.root.apply {
+            this.toolbar.addMarginTop(statusBarHeightOverCard())
         }
     }
 
@@ -59,22 +58,23 @@ class HomeFragment : Fragment() {
 
         viewModel.fetch()
 
-        setClickListeners(view)
-        initializeAdapter(view)
+        setClickListeners()
+        initializeAdapter()
         addObservers()
     }
 
-    private fun initializeAdapter(view: View) {
-        val recyclerViewVertical = view.findViewById<RecyclerView>(R.id.recycler_view_home)
-        recyclerViewVertical.adapter = adapterSection
+    private fun initializeAdapter() {
+        bindingHomeFragment.recyclerViewHome.adapter = adapterSection
     }
 
-    private fun setClickListeners(view: View) {
-        val addFavoriteMoviesButton = view.findViewById<Button>(R.id.button_add_favorite)
-        val movieDetailsButton = view.findViewById<Button>(R.id.button_movie_details)
+    private fun setClickListeners() {
+        bindingHomeFragment.headerHome.buttonAddFavorite.setOnClickListener {
+            viewModel.addFavorite()
+        }
 
-        addFavoriteMoviesButton.setOnClickListener { viewModel.addFavorite() }
-        movieDetailsButton.setOnClickListener { viewModel.details() }
+        bindingHomeFragment.headerHome.buttonMovieDetails.setOnClickListener {
+            viewModel.details()
+        }
     }
 
     private fun addObservers() {
@@ -93,8 +93,7 @@ class HomeFragment : Fragment() {
 
     private fun addImageOnHeader(movie: MovieUiModel) {
         if (movie.posterPath != null) {
-            val imageView = view?.findViewById<ImageView>(R.id.image_header)
-            imageView?.load(movie.posterPath)
+            bindingHomeFragment.headerHome.imageHeader.load(movie.posterPath)
         }
     }
 }
