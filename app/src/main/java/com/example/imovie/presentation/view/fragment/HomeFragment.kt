@@ -6,6 +6,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isGone
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -80,9 +83,12 @@ class HomeFragment : Fragment() {
     private fun addObservers() {
         viewModel.homeResult.observe(viewLifecycleOwner, Observer { result ->
             when (result) {
-                HomeResult.Loading -> Log.i("HomeFragment", "loading")
-                HomeResult.Error -> Log.i("HomeFragment", "error")
-                is HomeResult.Success -> adapterSection.submitList(result.sections)
+                is HomeResult.Success -> {
+                    adapterSection.submitList(result.sections)
+                    setSuccessState()
+                }
+                is HomeResult.Loading -> setLoadingState()
+                is HomeResult.Error -> setErrorState()
             }
         })
 
@@ -95,5 +101,26 @@ class HomeFragment : Fragment() {
         if (movie.posterPath != null) {
             bindingHomeFragment.headerHome.imageHeader.load(movie.posterPath)
         }
+    }
+
+    private fun setLoadingState() {
+        bindingHomeFragment.loading.root.visibility = View.VISIBLE
+        bindingHomeFragment.error.root.visibility = View.INVISIBLE
+        bindingHomeFragment.appBar.visibility = View.INVISIBLE
+        bindingHomeFragment.recyclerViewHome.visibility = View.INVISIBLE
+    }
+
+    private fun setSuccessState() {
+        bindingHomeFragment.loading.root.visibility = View.INVISIBLE
+        bindingHomeFragment.error.root.visibility = View.INVISIBLE
+        bindingHomeFragment.appBar.visibility = View.VISIBLE
+        bindingHomeFragment.recyclerViewHome.visibility = View.VISIBLE
+    }
+
+    private fun setErrorState() {
+        bindingHomeFragment.loading.root.visibility = View.INVISIBLE
+        bindingHomeFragment.error.root.visibility = View.VISIBLE
+        bindingHomeFragment.appBar.visibility = View.INVISIBLE
+        bindingHomeFragment.recyclerViewHome.visibility = View.INVISIBLE
     }
 }

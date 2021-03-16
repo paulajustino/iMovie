@@ -2,4 +2,7 @@
     <string name="app_name">iMovie</string>
     <string name="title_details_movie">Detalhes</string>
     <string name="title_favorite_movies">Meus Favoritos</string>
+    <string name="text_button_try_again">Tentar \n Novamente</string>
+    <string name="text_msg_error">Não conseguimos carregar a lista de filmes.</string>
+    <string name="text_msg_loading">Carregando…</string>
 </resources>
