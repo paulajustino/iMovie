@@ -11,8 +11,8 @@ import com.example.imovie.databinding.ViewHolderDetailsMovieBinding
 import com.example.imovie.utils.load
 import kotlinx.android.synthetic.main.view_holder_details_movie.view.*
 
-class MovieListAdapter :
-    ListAdapter<MovieUiModel, MovieListAdapter.MovieViewHolder>(MoviesItemDiffCallback) {
+class DetailsAdapter :
+    ListAdapter<MovieUiModel, DetailsAdapter.MovieViewHolder>(MoviesItemDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)

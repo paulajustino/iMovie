@@ -9,14 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.imovie.MyApplication
 import com.example.imovie.databinding.FragmentDetailsBinding
-import com.example.imovie.presentation.view.adapter.MovieListAdapter
+import com.example.imovie.presentation.view.adapter.DetailsAdapter
 
 class DetailsFragment : Fragment() {
 
     private lateinit var bindingDetailsFragment: FragmentDetailsBinding
 
     private val adapterDetails by lazy {
-        MovieListAdapter()
+        DetailsAdapter()
     }
 
     override fun onAttach(context: Context) {
@@ -41,7 +41,7 @@ class DetailsFragment : Fragment() {
     }
 
     private fun initializeAdapter() {
-        bindingDetailsFragment.recyclerViewDetails.layoutManager = GridLayoutManager(context, 2)
+        bindingDetailsFragment.recyclerViewDetails.layoutManager = GridLayoutManager(context, 3)
         bindingDetailsFragment.recyclerViewDetails.adapter = adapterDetails
     }
 }

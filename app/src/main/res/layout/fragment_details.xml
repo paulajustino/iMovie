@@ -102,6 +102,8 @@
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title_similar_movies" />
+        app:layout_constraintTop_toBottomOf="@id/title_similar_movies"
+        android:orientation="horizontal"
+        tools:listitem="@layout/view_holder_details_movie"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
