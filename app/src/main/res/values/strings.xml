@@ -5,4 +5,6 @@
     <string name="text_button_try_again">Tentar \n Novamente</string>
     <string name="text_msg_error">Não conseguimos carregar a lista de filmes.</string>
     <string name="text_msg_loading">Carregando…</string>
+    <string name="title_similar_movies">Opções Similares</string>
+    <string name="text_button_share">Compartilhar</string>
 </resources>
