@@ -60,7 +60,6 @@ class HomeFragment : Fragment(), HomeAdapterListener {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.dispatchViewAction(HomeViewAction.OnHomeInitialized)
-        //viewModel.fetch()
 
         setClickListeners()
         initializeAdapter()
