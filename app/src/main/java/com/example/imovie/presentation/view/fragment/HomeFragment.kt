@@ -10,16 +10,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.imovie.HomeAdapterListener
-import com.example.imovie.MovieUiModel
-import com.example.imovie.MyApplication
+import com.example.imovie.*
 import com.example.imovie.databinding.FragmentHomeBinding
 import com.example.imovie.presentation.view.adapter.SectionListAdapter
 import com.example.imovie.presentation.view.statusBarHeightOverCard
 import com.example.imovie.presentation.viewmodel.HomeResult
-import com.example.imovie.presentation.viewmodel.HomeViewAction
 import com.example.imovie.presentation.viewmodel.HomeViewModel
-import com.example.imovie.presentation.viewmodel.HomeViewState
 import com.example.imovie.utils.addMarginTop
 import com.example.imovie.utils.load
 import kotlinx.android.synthetic.main.fragment_home.view.*

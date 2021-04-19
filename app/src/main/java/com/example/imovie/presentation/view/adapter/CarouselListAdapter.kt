@@ -25,12 +25,12 @@ class CarouselListAdapter constructor(
 
     override fun onBindViewHolder(holder: CarouselViewHolder, position: Int) {
         val movie = getItem(position)
-        holder.bind(movie, listener)
+        holder.bind(movie)
     }
 
-    class CarouselViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class CarouselViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(movie: MovieUiModel, listener: HomeAdapterListener) {
+        fun bind(movie: MovieUiModel) {
             if (movie.posterPath != null) {
                 itemView.image_movie.load(movie.posterPath)
             } else {

@@ -3,10 +3,7 @@ package com.example.imovie.presentation.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.imovie.BaseViewModel
-import com.example.imovie.MovieUiModel
-import com.example.imovie.SectionUiModel
-import com.example.imovie.SingleLiveEvent
+import com.example.imovie.*
 import com.example.imovie.domain.usecase.GetHomeListUseCase
 import com.example.imovie.presentation.mapper.MovieModelToUiModelMapper
 import com.example.imovie.presentation.mapper.SectionModelToUiModelMapper
@@ -20,28 +17,6 @@ sealed class HomeResult {
     object Error : HomeResult()
 
     data class Success(val sections: List<SectionUiModel>) : HomeResult()
-}
-
-class HomeViewState @Inject constructor() {
-
-    val action: SingleLiveEvent<Action> = SingleLiveEvent()
-
-    sealed class Action {
-        data class OpenDetails(val id: String) : Action()
-
-        object OpenFavorites : Action()
-    }
-}
-
-sealed class HomeViewAction {
-
-    object OnHomeMovieClicked : HomeViewAction()
-
-    data class OnCarouselHomeMovieClicked(val movieId: String) : HomeViewAction()
-
-    object OnHomeInitialized : HomeViewAction()
-
-    object OnFavoriteMoviesClicked : HomeViewAction()
 }
 
 class HomeViewModel @Inject constructor(
