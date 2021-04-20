@@ -5,7 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.imovie.presentation.model.MovieDetailsUiModel
 import com.example.imovie.domain.usecase.GetDetailsUseCase
+import com.example.imovie.presentation.DetailsViewAction
+import com.example.imovie.presentation.DetailsViewState
+import com.example.imovie.presentation.HomeViewAction
 import com.example.imovie.presentation.mapper.MovieDetailsModelToUiModelMapper
+import com.example.imovie.utils.BaseViewModel
 import com.example.imovie.utils.Result
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,13 +23,16 @@ sealed class DetailsResult {
 
 class DetailsViewModel @Inject constructor(
     private val getDetailsUseCase: GetDetailsUseCase,
-    private val movieDetailsUiModelMapper: MovieDetailsModelToUiModelMapper
-) : ViewModel() {
+    private val movieDetailsUiModelMapper: MovieDetailsModelToUiModelMapper,
+    override val viewState: DetailsViewState
+) : BaseViewModel<DetailsViewState, DetailsViewAction>() {
 
     val detailsResult = MutableLiveData<DetailsResult>()
 
-    fun fetch(id: String) {
-        getMovieDetails(id)
+    override fun dispatchViewAction(viewAction: DetailsViewAction) {
+        when (viewAction) {
+            is DetailsViewAction.OnDetailsInitialized -> getMovieDetails(viewAction.movieId)
+        }
     }
 
     private fun getMovieDetails(id: String) {

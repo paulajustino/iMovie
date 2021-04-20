@@ -10,9 +10,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
-import com.example.imovie.presentation.model.MovieDetailsUiModel
 import com.example.imovie.MyApplication
 import com.example.imovie.databinding.FragmentDetailsBinding
+import com.example.imovie.presentation.DetailsViewAction
+import com.example.imovie.presentation.model.MovieDetailsUiModel
 import com.example.imovie.presentation.viewmodel.DetailsResult
 import com.example.imovie.presentation.viewmodel.DetailsViewModel
 import com.example.imovie.utils.load
@@ -47,7 +48,7 @@ class DetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.fetch(args.id)
+        viewModel.dispatchViewAction(DetailsViewAction.OnDetailsInitialized(args.id))
 
         addObservers()
     }
@@ -55,12 +56,12 @@ class DetailsFragment : Fragment() {
     private fun addObservers() {
         viewModel.detailsResult.observe(viewLifecycleOwner, Observer { result ->
             when (result) {
-                is DetailsResult.Success -> setLoadingState(result.movie)
+                is DetailsResult.Success -> setSuccessState(result.movie)
             }
         })
     }
 
-    private fun setLoadingState(movie: MovieDetailsUiModel) {
+    private fun setSuccessState(movie: MovieDetailsUiModel) {
         movie.posterPath?.let { this.bindingDetailsFragment.imageMovie.load(it) }
         this.bindingDetailsFragment.titleMovie.text = movie.title
         this.bindingDetailsFragment.overviewMovie.text = movie.overview
