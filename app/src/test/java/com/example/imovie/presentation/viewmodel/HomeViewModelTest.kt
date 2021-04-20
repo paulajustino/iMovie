@@ -1,10 +1,16 @@
 package com.example.imovie.presentation.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.imovie.*
+import com.example.imovie.domain.model.MovieModel
+import com.example.imovie.domain.model.SectionModel
 import com.example.imovie.domain.usecase.GetHomeListUseCase
+import com.example.imovie.presentation.HomeViewState
 import com.example.imovie.presentation.mapper.MovieModelToUiModelMapper
 import com.example.imovie.presentation.mapper.SectionModelToUiModelMapper
+import com.example.imovie.presentation.model.MovieUiModel
+import com.example.imovie.presentation.model.SectionUiModel
+import com.example.imovie.utils.CoroutinesTestRule
+import com.example.imovie.utils.NetworkError
 import com.example.imovie.utils.Result
 import io.mockk.coEvery
 import io.mockk.every
@@ -29,10 +35,12 @@ class HomeViewModelTest {
     private val getHomeListUseCase: GetHomeListUseCase = mockk()
     private val movieUiModelMapper = mockk<MovieModelToUiModelMapper>()
     private val sectionUiModelMapper: SectionModelToUiModelMapper = mockk()
+    private val homeViewState: HomeViewState = mockk()
     private val homeViewModel = HomeViewModel(
         getHomeListUseCase = getHomeListUseCase,
         movieUiModelMapper = movieUiModelMapper,
-        sectionUiModelMapper = sectionUiModelMapper
+        sectionUiModelMapper = sectionUiModelMapper,
+        viewState = homeViewState
     )
 
     @Test
@@ -73,9 +81,7 @@ class HomeViewModelTest {
             val movieModelList = listOf(
                 MovieModel(
                     id = "1",
-                    titleMovie = "titleTeste",
-                    posterPath = "posterPathTeste",
-                    descriptionMovie = "descriptionTeste"
+                    posterPath = "posterPathTeste"
                 )
             )
 
@@ -103,9 +109,7 @@ class HomeViewModelTest {
             val movieModelList = listOf(
                 MovieModel(
                     id = "1",
-                    titleMovie = "titleTeste",
-                    posterPath = "posterPathTeste",
-                    descriptionMovie = "descriptionTeste"
+                    posterPath = "posterPathTeste"
                 )
             )
 

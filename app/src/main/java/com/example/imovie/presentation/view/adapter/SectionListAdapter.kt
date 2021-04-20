@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.imovie.HomeAdapterListener
-import com.example.imovie.SectionUiModel
+import com.example.imovie.presentation.view.listener.HomeAdapterListener
+import com.example.imovie.presentation.model.SectionUiModel
 import com.example.imovie.databinding.ViewHolderListHomeBinding
 import kotlinx.android.synthetic.main.view_holder_list_home.view.*
 

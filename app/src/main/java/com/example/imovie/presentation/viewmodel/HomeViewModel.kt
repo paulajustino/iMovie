@@ -3,10 +3,14 @@ package com.example.imovie.presentation.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.imovie.*
 import com.example.imovie.domain.usecase.GetHomeListUseCase
+import com.example.imovie.presentation.HomeViewAction
+import com.example.imovie.presentation.HomeViewState
 import com.example.imovie.presentation.mapper.MovieModelToUiModelMapper
 import com.example.imovie.presentation.mapper.SectionModelToUiModelMapper
+import com.example.imovie.presentation.model.MovieUiModel
+import com.example.imovie.presentation.model.SectionUiModel
+import com.example.imovie.utils.BaseViewModel
 import com.example.imovie.utils.Result
 import com.example.imovie.utils.randomOrNull
 import kotlinx.coroutines.launch

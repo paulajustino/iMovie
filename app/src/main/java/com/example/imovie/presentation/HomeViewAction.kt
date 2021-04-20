@@ -1,4 +1,4 @@
-package com.example.imovie
+package com.example.imovie.presentation
 
 sealed class HomeViewAction {
 

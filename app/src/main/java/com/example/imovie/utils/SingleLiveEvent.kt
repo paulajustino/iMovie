@@ -1,4 +1,4 @@
-package com.example.imovie
+package com.example.imovie.utils
 
 import androidx.annotation.AnyThread
 import androidx.annotation.MainThread

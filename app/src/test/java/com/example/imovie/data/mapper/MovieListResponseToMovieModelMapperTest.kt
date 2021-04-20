@@ -1,6 +1,6 @@
 package com.example.imovie.data.mapper
 
-import com.example.imovie.MovieModel
+import com.example.imovie.domain.model.MovieModel
 import com.example.imovie.data.api.MovieListResponse
 import com.example.imovie.data.api.MovieResponse
 import io.mockk.every
@@ -11,7 +11,7 @@ import kotlin.test.assertEquals
 class MovieListResponseToMovieModelMapperTest {
 
     private val movieMapper: MovieResponseToMovieModelMapper = mockk()
-    private val mapper = MovieListResponseToMovieModelMapper(
+    private val mapper = MovieListResponseToMovieModelDefaultMapper(
         movieMapper = movieMapper
     )
 
@@ -20,9 +20,7 @@ class MovieListResponseToMovieModelMapperTest {
 
         val movieMapperResult = MovieModel(
             id = "1",
-            titleMovie = "title",
-            posterPath = "posterPath",
-            descriptionMovie = "overview"
+            posterPath = "posterPath"
         )
 
         prepareScenario(movieMapperResult)
@@ -31,9 +29,7 @@ class MovieListResponseToMovieModelMapperTest {
             results = listOf(
                 MovieResponse(
                     id = 1,
-                    title = "title",
-                    posterPath = "posterPath",
-                    overview = "overview"
+                    posterPath = "posterPath"
                 )
             )
         )
@@ -50,9 +46,7 @@ class MovieListResponseToMovieModelMapperTest {
     fun mapListFrom_movieListResponseWithPosterPathNull_shouldReturnMovieModelList() {
         val movieMapperResult = MovieModel(
             id = "1",
-            titleMovie = "title",
-            posterPath = null,
-            descriptionMovie = "overview"
+            posterPath = null
         )
 
         prepareScenario(movieMapperResult)
@@ -61,9 +55,7 @@ class MovieListResponseToMovieModelMapperTest {
             results = listOf(
                 MovieResponse(
                     id = 1,
-                    title = "title",
-                    posterPath = null,
-                    overview = "overview"
+                    posterPath = null
                 )
             )
         )
@@ -105,9 +97,7 @@ class MovieListResponseToMovieModelMapperTest {
     private fun prepareScenario(
         movieMapperResult: MovieModel = MovieModel(
             id = "1",
-            titleMovie = "titleTeste",
-            posterPath = "posterTeste",
-            descriptionMovie = "descriptionTeste"
+            posterPath = "posterTeste"
         )
     ) {
         every {
