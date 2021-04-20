@@ -6,12 +6,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.imovie.HomeAdapterListener
 import com.example.imovie.SectionUiModel
 import com.example.imovie.databinding.ViewHolderListHomeBinding
 import kotlinx.android.synthetic.main.view_holder_list_home.view.*
 
-class SectionListAdapter :
-    ListAdapter<SectionUiModel, SectionListAdapter.SectionViewHolder>(SectionsItemDiffCallback) {
+class SectionListAdapter constructor(
+    private val listener: HomeAdapterListener
+) : ListAdapter<SectionUiModel, SectionListAdapter.SectionViewHolder>(SectionsItemDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SectionViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -25,9 +27,8 @@ class SectionListAdapter :
         holder.bind(section)
     }
 
-    class SectionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        private val adapterCarousel = CarouselListAdapter()
+    inner class SectionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val adapterCarousel = CarouselListAdapter(listener = listener)
 
         init {
             itemView.recycler_view_carousel.adapter = adapterCarousel

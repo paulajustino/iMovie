@@ -2,10 +2,8 @@ package com.example.imovie.presentation.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.imovie.MovieUiModel
-import com.example.imovie.SectionUiModel
+import com.example.imovie.*
 import com.example.imovie.domain.usecase.GetHomeListUseCase
 import com.example.imovie.presentation.mapper.MovieModelToUiModelMapper
 import com.example.imovie.presentation.mapper.SectionModelToUiModelMapper
@@ -24,11 +22,21 @@ sealed class HomeResult {
 class HomeViewModel @Inject constructor(
     private val getHomeListUseCase: GetHomeListUseCase,
     private val movieUiModelMapper: MovieModelToUiModelMapper,
-    private val sectionUiModelMapper: SectionModelToUiModelMapper
-) : ViewModel() {
+    private val sectionUiModelMapper: SectionModelToUiModelMapper,
+    override val viewState: HomeViewState
+) : BaseViewModel<HomeViewState, HomeViewAction>() {
 
     val homeResult = MutableLiveData<HomeResult>()
     val homeHeaderResult = MutableLiveData<MovieUiModel>()
+
+    override fun dispatchViewAction(viewAction: HomeViewAction) {
+        when (viewAction) {
+            is HomeViewAction.OnHomeMovieClicked -> openHeaderDetails()
+            is HomeViewAction.OnCarouselHomeMovieClicked -> openDetails(viewAction.movieId)
+            is HomeViewAction.OnHomeInitialized -> getHomeList()
+            is HomeViewAction.OnFavoriteMoviesClicked -> addFavoriteMovies()
+        }
+    }
 
     fun fetch() {
         getHomeList()
@@ -57,19 +65,22 @@ class HomeViewModel @Inject constructor(
         homeHeaderResult.value = movie
     }
 
-    fun addFavorite() {
-        addFavoriteMovies()
-    }
-
     private fun addFavoriteMovies() {
+        viewState.action.value = HomeViewState.Action.OpenFavorites
         Log.i("HomeViewModel", "addFavoriteMoviesButton clicked")
     }
 
-    fun details() {
-        movieDetails()
+    private fun openHeaderDetails() {
+        val movieId = this.homeHeaderResult.value?.id
+        if (!movieId.isNullOrEmpty()) {
+            viewState.action.value = HomeViewState.Action.OpenDetails(movieId)
+        }
     }
 
-    private fun movieDetails() {
-        Log.i("HomeViewModel", "movieDetailsButton clicked")
+    private fun openDetails(id: String) {
+        if (!id.isNullOrEmpty()) {
+            viewState.action.value = HomeViewState.Action.OpenDetails(id)
+        }
     }
+
 }

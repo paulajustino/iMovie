@@ -54,7 +54,7 @@
         android:layout_marginTop="6dp"
         android:layout_marginRight="6dp"
         android:fontFamily="sans-serif-medium"
-        android:text="A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground fight clubs forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion."
+        tools:text="A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground fight clubs forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/release_date_movie" />
@@ -74,7 +74,7 @@
         style="@style/ButtonHome"
         android:layout_marginTop="6dp"
         android:drawableTop="@android:drawable/ic_menu_share"
-        android:text="Compartilhar"
+        android:text="@string/text_button_share"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/button_add_favorite_movie"
         app:layout_constraintTop_toBottomOf="@+id/overview_movie" />
@@ -86,7 +86,7 @@
         android:layout_marginLeft="6dp"
         android:layout_marginTop="6dp"
         android:fontFamily="sans-serif-condensed-medium"
-        android:text="OPÇÕES SEMELHANTES"
+        android:text="@string/title_similar_movies"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"

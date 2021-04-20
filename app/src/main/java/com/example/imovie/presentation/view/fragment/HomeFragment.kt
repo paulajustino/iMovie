@@ -2,19 +2,15 @@ package com.example.imovie.presentation.view.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isGone
-import androidx.core.view.isInvisible
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.imovie.MovieUiModel
-import com.example.imovie.MyApplication
+import androidx.navigation.fragment.findNavController
+import com.example.imovie.*
 import com.example.imovie.databinding.FragmentHomeBinding
 import com.example.imovie.presentation.view.adapter.SectionListAdapter
 import com.example.imovie.presentation.view.statusBarHeightOverCard
@@ -25,7 +21,7 @@ import com.example.imovie.utils.load
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import javax.inject.Inject
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), HomeAdapterListener {
 
     @Inject
     lateinit var viewModelProviderFactory: ViewModelProvider.Factory
@@ -35,7 +31,7 @@ class HomeFragment : Fragment() {
     private lateinit var bindingHomeFragment: FragmentHomeBinding
 
     private val adapterSection by lazy {
-        SectionListAdapter()
+        SectionListAdapter(this)
     }
 
     override fun onAttach(context: Context) {
@@ -59,7 +55,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.fetch()
+        viewModel.dispatchViewAction(HomeViewAction.OnHomeInitialized)
 
         setClickListeners()
         initializeAdapter()
@@ -72,11 +68,15 @@ class HomeFragment : Fragment() {
 
     private fun setClickListeners() {
         bindingHomeFragment.headerHome.buttonAddFavorite.setOnClickListener {
-            viewModel.addFavorite()
+            viewModel.dispatchViewAction(HomeViewAction.OnFavoriteMoviesClicked)
         }
 
         bindingHomeFragment.headerHome.buttonMovieDetails.setOnClickListener {
-            viewModel.details()
+            viewModel.dispatchViewAction(HomeViewAction.OnHomeMovieClicked)
+        }
+
+        bindingHomeFragment.headerHome.imageHeader.setOnClickListener {
+            viewModel.dispatchViewAction(HomeViewAction.OnHomeMovieClicked)
         }
     }
 
@@ -95,6 +95,20 @@ class HomeFragment : Fragment() {
         viewModel.homeHeaderResult.observe(viewLifecycleOwner, Observer { result ->
             addImageOnHeader(result)
         })
+
+        viewModel.viewState.action.observe(viewLifecycleOwner, Observer { action ->
+            when (action) {
+                is HomeViewState.Action.OpenDetails -> {
+                    val homeAction =
+                        HomeFragmentDirections.actionHomeFragmentToDetailsFragment(action.id)
+                    findNavController().navigate(homeAction)
+                }
+            }
+        })
+    }
+
+    override fun onHomeMovieClicked(id: String) {
+        viewModel.dispatchViewAction(HomeViewAction.OnCarouselHomeMovieClicked(id))
     }
 
     private fun addImageOnHeader(movie: MovieUiModel) {
