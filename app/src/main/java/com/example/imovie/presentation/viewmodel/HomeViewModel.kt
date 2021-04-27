@@ -1,17 +1,19 @@
 package com.example.imovie.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.imovie.MovieUiModel
-import com.example.imovie.SectionUiModel
 import com.example.imovie.domain.usecase.GetHomeListUseCase
+import com.example.imovie.presentation.HomeViewAction
+import com.example.imovie.presentation.HomeViewState
 import com.example.imovie.presentation.mapper.MovieModelToUiModelMapper
 import com.example.imovie.presentation.mapper.SectionModelToUiModelMapper
+import com.example.imovie.presentation.model.MovieUiModel
+import com.example.imovie.presentation.model.SectionUiModel
+import com.example.imovie.utils.BaseViewModel
 import com.example.imovie.utils.Result
 import com.example.imovie.utils.randomOrNull
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 sealed class HomeResult {
     object Loading : HomeResult()
@@ -20,17 +22,23 @@ sealed class HomeResult {
     data class Success(val sections: List<SectionUiModel>) : HomeResult()
 }
 
-class HomeViewModel constructor(
-    private val getHomeListUseCase: GetHomeListUseCase = GetHomeListUseCase(),
-    private val movieUiModelMapper: MovieModelToUiModelMapper = MovieModelToUiModelMapper(),
-    private val sectionUiModelMapper: SectionModelToUiModelMapper = SectionModelToUiModelMapper()
-) : ViewModel() {
+class HomeViewModel @Inject constructor(
+    private val getHomeListUseCase: GetHomeListUseCase,
+    private val movieUiModelMapper: MovieModelToUiModelMapper,
+    private val sectionUiModelMapper: SectionModelToUiModelMapper,
+    override val viewState: HomeViewState
+) : BaseViewModel<HomeViewState, HomeViewAction>() {
 
     val homeResult = MutableLiveData<HomeResult>()
     val homeHeaderResult = MutableLiveData<MovieUiModel>()
 
-    fun fetch() {
-        getHomeList()
+    override fun dispatchViewAction(viewAction: HomeViewAction) {
+        when (viewAction) {
+            is HomeViewAction.OnHomeMovieClicked -> openHeaderDetails()
+            is HomeViewAction.OnCarouselHomeMovieClicked -> openDetails(viewAction.movieId)
+            is HomeViewAction.OnHomeInitialized -> getHomeList()
+            is HomeViewAction.OnFavoriteMoviesClicked -> addFavoriteMovies()
+        }
     }
 
     private fun getHomeList() {
@@ -56,19 +64,21 @@ class HomeViewModel constructor(
         homeHeaderResult.value = movie
     }
 
-    fun addFavorite() {
-        addFavoriteMovies()
-    }
-
     private fun addFavoriteMovies() {
-        Log.i("HomeViewModel", "addFavoriteMoviesButton clicked")
+        viewState.action.value = HomeViewState.Action.OpenFavorites
     }
 
-    fun details() {
-        movieDetails()
+    private fun openHeaderDetails() {
+        val movieId = this.homeHeaderResult.value?.id
+        if (!movieId.isNullOrEmpty()) {
+            viewState.action.value = HomeViewState.Action.OpenDetails(movieId)
+        }
     }
 
-    private fun movieDetails() {
-        Log.i("HomeViewModel", "movieDetailsButton clicked")
+    private fun openDetails(id: String) {
+        if (!id.isNullOrEmpty()) {
+            viewState.action.value = HomeViewState.Action.OpenDetails(id)
+        }
     }
+
 }

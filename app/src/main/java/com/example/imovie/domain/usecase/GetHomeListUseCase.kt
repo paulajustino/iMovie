@@ -2,14 +2,26 @@ package com.example.imovie.domain.usecase
 
 import com.example.imovie.*
 import com.example.imovie.data.repository.TheMovieDbRepository
+import com.example.imovie.domain.model.MovieModel
+import com.example.imovie.domain.model.SectionModel
+import com.example.imovie.utils.DispatcherProvider
+import com.example.imovie.utils.NetworkError
 import com.example.imovie.utils.Result
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
-class GetHomeListUseCase {
-    private val theMovieDbRepository: TheMovieDbRepository = TheMovieDbRepository()
+interface GetHomeListUseCase {
 
-    suspend fun getHomeList(): Result<List<SectionModel>, NetworkError> {
-        return withContext(Dispatchers.IO) {
+    suspend fun getHomeList(): Result<List<SectionModel>, NetworkError>
+}
+
+class GetHomeList @Inject constructor(
+    private val theMovieDbRepository: TheMovieDbRepository,
+    private val dispatcherProvider: DispatcherProvider
+) : GetHomeListUseCase {
+
+    override suspend fun getHomeList(): Result<List<SectionModel>, NetworkError> {
+        return withContext(dispatcherProvider.io()) {
             val popularMovies = async { theMovieDbRepository.getPopularMovies() }
             val nowPlayingMovies = async { theMovieDbRepository.getNowPlayingMovies() }
             val topRatedMovies = async { theMovieDbRepository.getTopRatedMovies() }
@@ -40,7 +52,7 @@ class GetHomeListUseCase {
             }
 
             if (returns.isEmpty()) {
-                return@withContext Result.Error(NetworkError())
+                return@withContext Result.Error(NetworkError(null))
             }
 
             return@withContext Result.Success(returns)
