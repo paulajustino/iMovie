@@ -1,9 +1,9 @@
 package com.example.imovie.presentation.mapper
 
-import com.example.imovie.MovieModel
-import com.example.imovie.MovieUiModel
-import com.example.imovie.SectionModel
-import com.example.imovie.SectionUiModel
+import com.example.imovie.domain.model.MovieModel
+import com.example.imovie.presentation.model.MovieUiModel
+import com.example.imovie.domain.model.SectionModel
+import com.example.imovie.presentation.model.SectionUiModel
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Test
@@ -12,7 +12,7 @@ import kotlin.test.assertEquals
 class SectionModelToUiModelMapperTest {
 
     private val movieMapper: MovieModelToUiModelMapper = mockk()
-    private val mapper = SectionModelToUiModelMapper(
+    private val mapper = SectionModelToUiModelDefaultMapper(
         movieUiModelMapper = movieMapper
     )
 
@@ -66,9 +66,7 @@ class SectionModelToUiModelMapperTest {
         val movieModelList = listOf(
             MovieModel(
                 id = "1",
-                titleMovie = "TitleMovie",
-                posterPath = "PosterPath",
-                descriptionMovie = "DescriptionMovie"
+                posterPath = "PosterPath"
             )
         )
 

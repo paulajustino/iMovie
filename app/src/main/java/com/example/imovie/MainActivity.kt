@@ -1,23 +1,25 @@
 package com.example.imovie
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import com.google.android.material.appbar.MaterialToolbar
+import com.example.imovie.databinding.ActivityMainBinding
+import kotlinx.android.synthetic.main.fragment_home.view.*
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        val toolBar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolBar)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-        supportActionBar?.setLogo(R.drawable.ic_launcher_foreground)
+        (application as? MyApplication)?.appComponent?.inject(this)
+
+        super.onCreate(savedInstanceState)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+
+        setContentView(binding.root)
+
+        configActionBar(binding.root.toolbar)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -31,5 +33,11 @@ class MainActivity : AppCompatActivity() {
             R.id.ic_favorite_movies -> Log.i("MainActivity", "favorite clicked")
         }
         return true
+    }
+
+    private fun configActionBar(toolbar: Toolbar) {
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setLogo(R.drawable.ic_launcher_foreground)
     }
 }

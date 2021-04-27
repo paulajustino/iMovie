@@ -63,9 +63,11 @@ class DetailsFragment : Fragment() {
 
     private fun setSuccessState(movie: MovieDetailsUiModel) {
         movie.backdropPath?.let { this.bindingDetailsFragment.imageMovie.load(it) }
-        this.bindingDetailsFragment.titleMovie.text = movie.title
-        this.bindingDetailsFragment.overviewMovie.text = movie.overview
-        this.bindingDetailsFragment.runtimeMovie.text = movie.runtime
-        this.bindingDetailsFragment.releaseDateMovie.text = movie.release
+        this.bindingDetailsFragment.run {
+            titleMovie.text = movie.title
+            overviewMovie.text = movie.overview
+            runtimeMovie.text = movie.runtime
+            releaseDateMovie.text = movie.release
+        }
     }
 }

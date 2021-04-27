@@ -7,8 +7,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include
+        android:id="@+id/loading"
+        android:visibility="gone"
+        layout="@layout/loading"/>
+
+    <include
+        android:id="@+id/error"
+        android:visibility="gone"
+        layout="@layout/error"/>
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:elevation="0dp">
@@ -41,6 +52,7 @@
         android:id="@+id/recycler_view_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="visible"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/view_holder_list_home"

@@ -1,12 +1,18 @@
 package com.example.imovie.presentation.mapper
 
-import com.example.imovie.SectionModel
-import com.example.imovie.SectionUiModel
+import com.example.imovie.domain.model.SectionModel
+import com.example.imovie.presentation.model.SectionUiModel
+import javax.inject.Inject
 
-class SectionModelToUiModelMapper constructor(
-    private val movieUiModelMapper: MovieModelToUiModelMapper = MovieModelToUiModelMapper()
-) {
-    fun mapFrom(from: List<SectionModel>): List<SectionUiModel> {
+interface SectionModelToUiModelMapper {
+
+    fun mapFrom(from: List<SectionModel>): List<SectionUiModel>
+}
+
+class SectionModelToUiModelDefaultMapper @Inject constructor(
+    private val movieUiModelMapper: MovieModelToUiModelMapper
+) : SectionModelToUiModelMapper {
+    override fun mapFrom(from: List<SectionModel>): List<SectionUiModel> {
         return from.map { sectionModel ->
             SectionUiModel(
                 id = sectionModel.id,

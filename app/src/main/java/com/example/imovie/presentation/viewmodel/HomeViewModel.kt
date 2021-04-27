@@ -80,5 +80,4 @@ class HomeViewModel @Inject constructor(
             viewState.action.value = HomeViewState.Action.OpenDetails(id)
         }
     }
-
 }
