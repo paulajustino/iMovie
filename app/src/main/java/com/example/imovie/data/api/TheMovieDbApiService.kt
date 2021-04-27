@@ -2,6 +2,7 @@ package com.example.imovie.data.api
 
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface TheMovieDbApiService {
@@ -29,4 +30,11 @@ interface TheMovieDbApiService {
         @Query("api_key") apiKey: String,
         @Query("language") language: String
     ): Response<MovieListResponse>
+
+    @GET("movie/{movie_id}")
+    suspend fun getMovieDetails(
+        @Path("movie_id") movieId: Int,
+        @Query("api_key") apiKey: String,
+        @Query("language") language: String
+    ): Response<MovieDetailsResponse>
 }

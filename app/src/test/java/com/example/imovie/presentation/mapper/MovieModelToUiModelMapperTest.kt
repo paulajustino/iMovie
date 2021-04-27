@@ -1,13 +1,13 @@
 package com.example.imovie.presentation.mapper
 
-import com.example.imovie.MovieModel
-import com.example.imovie.MovieUiModel
+import com.example.imovie.domain.model.MovieModel
+import com.example.imovie.presentation.model.MovieUiModel
 import org.junit.Test
 import kotlin.test.assertEquals
 
 class MovieModelToUiModelMapperTest {
 
-    private val mapper = MovieModelToUiModelMapper()
+    private val mapper = MovieModelToUiModelDefaultMapper()
 
     @Test
     fun mapFrom_validMovieModel_shouldReturnMovieUiModel() {
@@ -18,9 +18,7 @@ class MovieModelToUiModelMapperTest {
 
         val movieModel = MovieModel(
             id = "1",
-            titleMovie = "TituloTeste",
-            posterPath = "PosterPathTeste",
-            descriptionMovie = "DescriptionTeste"
+            posterPath = "PosterPathTeste"
         )
 
         val actual = mapper.mapFrom(movieModel)

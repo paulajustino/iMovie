@@ -12,7 +12,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.imovie.*
 import com.example.imovie.databinding.FragmentHomeBinding
+import com.example.imovie.presentation.HomeViewAction
+import com.example.imovie.presentation.HomeViewState
+import com.example.imovie.presentation.model.MovieUiModel
 import com.example.imovie.presentation.view.adapter.SectionListAdapter
+import com.example.imovie.presentation.view.listener.HomeAdapterListener
 import com.example.imovie.presentation.view.statusBarHeightOverCard
 import com.example.imovie.presentation.viewmodel.HomeResult
 import com.example.imovie.presentation.viewmodel.HomeViewModel

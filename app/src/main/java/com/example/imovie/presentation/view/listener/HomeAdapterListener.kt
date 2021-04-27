@@ -1,4 +1,4 @@
-package com.example.imovie
+package com.example.imovie.presentation.view.listener
 
 interface HomeAdapterListener {
 

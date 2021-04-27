@@ -1,4 +1,4 @@
-package com.example.imovie
+package com.example.imovie.utils
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

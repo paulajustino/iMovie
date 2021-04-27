@@ -1,7 +1,7 @@
 package com.example.imovie.presentation.mapper
 
-import com.example.imovie.SectionModel
-import com.example.imovie.SectionUiModel
+import com.example.imovie.domain.model.SectionModel
+import com.example.imovie.presentation.model.SectionUiModel
 import javax.inject.Inject
 
 interface SectionModelToUiModelMapper {

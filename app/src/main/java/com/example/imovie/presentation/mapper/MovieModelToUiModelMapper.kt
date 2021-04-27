@@ -1,7 +1,7 @@
 package com.example.imovie.presentation.mapper
 
-import com.example.imovie.MovieModel
-import com.example.imovie.MovieUiModel
+import com.example.imovie.domain.model.MovieModel
+import com.example.imovie.presentation.model.MovieUiModel
 import javax.inject.Inject
 
 interface MovieModelToUiModelMapper {

@@ -1,4 +1,6 @@
-package com.example.imovie
+package com.example.imovie.presentation.model
+
+import com.example.imovie.presentation.model.MovieUiModel
 
 data class SectionUiModel (
 

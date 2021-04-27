@@ -2,6 +2,9 @@ package com.example.imovie.domain.usecase
 
 import com.example.imovie.*
 import com.example.imovie.data.repository.TheMovieDbRepository
+import com.example.imovie.domain.model.MovieModel
+import com.example.imovie.domain.model.SectionModel
+import com.example.imovie.utils.NetworkError
 import com.example.imovie.utils.Result
 import kotlinx.coroutines.*
 import javax.inject.Inject
