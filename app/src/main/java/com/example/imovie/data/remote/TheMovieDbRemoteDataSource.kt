@@ -2,12 +2,12 @@ package com.example.imovie.data.remote
 
 import com.example.imovie.domain.model.MovieDetailsModel
 import com.example.imovie.domain.model.MovieModel
-import com.example.imovie.utils.NetworkError
 import com.example.imovie.data.api.TheMovieDbApiService
 import com.example.imovie.data.mapper.MovieDetailsResponseToMovieDetailsModelMapper
 import com.example.imovie.data.mapper.MovieListResponseToMovieModelMapper
 import com.example.imovie.utils.Constants
 import com.example.imovie.utils.DispatcherProvider
+import com.example.imovie.utils.NetworkError
 import com.example.imovie.utils.Result
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
