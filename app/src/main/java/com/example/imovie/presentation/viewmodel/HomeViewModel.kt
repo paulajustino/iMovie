@@ -1,6 +1,5 @@
 package com.example.imovie.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.imovie.domain.usecase.GetHomeListUseCase
@@ -42,10 +41,6 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun fetch() {
-        getHomeList()
-    }
-
     private fun getHomeList() {
         homeResult.value = HomeResult.Loading
         viewModelScope.launch {
@@ -71,7 +66,6 @@ class HomeViewModel @Inject constructor(
 
     private fun addFavoriteMovies() {
         viewState.action.value = HomeViewState.Action.OpenFavorites
-        Log.i("HomeViewModel", "addFavoriteMoviesButton clicked")
     }
 
     private fun openHeaderDetails() {
@@ -86,5 +80,4 @@ class HomeViewModel @Inject constructor(
             viewState.action.value = HomeViewState.Action.OpenDetails(id)
         }
     }
-
 }

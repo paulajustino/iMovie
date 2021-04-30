@@ -15,7 +15,7 @@ class MovieDetailsResponseToMovieDetailsModelDefaultMapper @Inject constructor()
     override fun mapFrom(from: MovieDetailsResponse): MovieDetailsModel {
         return MovieDetailsModel(
             id = "${from.id}",
-            posterPath = from.backdropPath,
+            backdropPath = from.backdropPath,
             title = from.title,
             overview = from.overview,
             release = from.release,

@@ -1,4 +1,4 @@
 package com.example.imovie.utils
 
-class NetworkError {
+data class NetworkError(val message: String? = null) {
 }

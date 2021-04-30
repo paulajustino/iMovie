@@ -1,5 +1,7 @@
 package com.example.imovie.di
 
+import com.example.imovie.utils.DefaultDispatcherProvider
+import com.example.imovie.utils.DispatcherProvider
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -19,4 +21,8 @@ object ProviderModule {
             .baseUrl(BASE_URL)
             .build()
     }
+
+    @JvmStatic
+    @Provides
+    fun provideDispatcherProvider(): DispatcherProvider = DefaultDispatcherProvider()
 }

@@ -14,7 +14,7 @@ class MovieDetailsModelToUiModelDefaultMapper @Inject constructor() :
     override fun mapFrom(from: MovieDetailsModel): MovieDetailsUiModel {
         return MovieDetailsUiModel(
             id = from.id,
-            posterPath = from.posterPath,
+            backdropPath = from.backdropPath,
             title = from.title,
             overview = from.overview,
             release = convertRelease(from.release),
