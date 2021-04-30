@@ -52,7 +52,7 @@ class GetHomeList @Inject constructor(
             }
 
             if (returns.isEmpty()) {
-                return@withContext Result.Error(NetworkError(null))
+                return@withContext Result.Error(NetworkError())
             }
 
             return@withContext Result.Success(returns)

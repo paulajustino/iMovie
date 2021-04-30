@@ -291,7 +291,7 @@ class TheMovieDbRemoteDataSourceTest {
                 )
             )
 
-            val expected = Result.Error(NetworkError(null))
+            val expected = Result.Error(NetworkError())
             val actual = theMovieDbRemoteDataSource.getPopularMovies()
 
             assertEquals(expected = expected, actual = actual)
@@ -308,7 +308,7 @@ class TheMovieDbRemoteDataSourceTest {
                 )
             )
 
-            val expected = Result.Error(NetworkError(null))
+            val expected = Result.Error(NetworkError())
             val actual = theMovieDbRemoteDataSource.getNowPlayingMovies()
 
             assertEquals(expected = expected, actual = actual)
@@ -325,7 +325,7 @@ class TheMovieDbRemoteDataSourceTest {
                 )
             )
 
-            val expected = Result.Error(NetworkError(null))
+            val expected = Result.Error(NetworkError())
             val actual = theMovieDbRemoteDataSource.getTopRatedMovies()
 
             assertEquals(expected = expected, actual = actual)
@@ -342,7 +342,7 @@ class TheMovieDbRemoteDataSourceTest {
                 )
             )
 
-            val expected = Result.Error(NetworkError(null))
+            val expected = Result.Error(NetworkError())
             val actual = theMovieDbRemoteDataSource.getUpcomingMovies()
 
             assertEquals(expected = expected, actual = actual)
@@ -356,7 +356,7 @@ class TheMovieDbRemoteDataSourceTest {
                 movieDetailsResult = Response.success(null)
             )
 
-            val expected = Result.Error(NetworkError(null))
+            val expected = Result.Error(NetworkError())
             val actual = theMovieDbRemoteDataSource.getMovieDetails("1")
 
             assertEquals(expected = expected, actual = actual)

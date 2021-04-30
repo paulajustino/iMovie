@@ -27,7 +27,7 @@ class GetDetails @Inject constructor(
                 val details = movieDetailsReturn.value
                 return@withContext Result.Success(details)
             } else {
-                return@withContext Result.Error(NetworkError(null))
+                return@withContext Result.Error(NetworkError())
             }
         }
     }

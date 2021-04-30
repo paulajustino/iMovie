@@ -65,7 +65,7 @@ class GetDetailsUseCaseTest {
                 getMovieDetailsResult = Result.Success(null)
             )
 
-            val expected = Result.Error(NetworkError(null))
+            val expected = Result.Error(NetworkError())
             val actual = getDetailsUseCase.getDetails("1")
 
             assertEquals(expected = expected, actual = actual)
@@ -76,10 +76,10 @@ class GetDetailsUseCaseTest {
     fun getDetails_ResponseError_shouldReturnResultWithError() {
         coroutinesTestRule.testDispatcher.runBlockingTest {
             prepareScenario(
-                getMovieDetailsResult = Result.Error(NetworkError(null))
+                getMovieDetailsResult = Result.Error(NetworkError())
             )
 
-            val expected = Result.Error(NetworkError(null))
+            val expected = Result.Error(NetworkError())
             val actual = getDetailsUseCase.getDetails("1")
 
             assertEquals(expected = expected, actual = actual)

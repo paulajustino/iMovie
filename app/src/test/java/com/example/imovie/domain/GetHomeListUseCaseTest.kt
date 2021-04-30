@@ -192,7 +192,7 @@ class GetHomeListUseCaseTest {
                 upcomingMoviesResult = Result.Success(emptyList())
             )
 
-            val expected = Result.Error(NetworkError(null))
+            val expected = Result.Error(NetworkError())
             val actual = getHomeListUseCase.getHomeList()
 
             assertEquals(expected = expected, actual = actual)
@@ -203,13 +203,13 @@ class GetHomeListUseCaseTest {
     fun getHomeList_AllResultError_shouldReturnResultWithError() {
         coroutinesTestRule.testDispatcher.runBlockingTest {
             prepareScenario(
-                popularMovieResult = Result.Error(NetworkError(null)),
-                nowPlayingMoviesResult = Result.Error(NetworkError(null)),
-                topRatedMoviesResult = Result.Error(NetworkError(null)),
-                upcomingMoviesResult = Result.Error(NetworkError(null))
+                popularMovieResult = Result.Error(NetworkError()),
+                nowPlayingMoviesResult = Result.Error(NetworkError()),
+                topRatedMoviesResult = Result.Error(NetworkError()),
+                upcomingMoviesResult = Result.Error(NetworkError())
             )
 
-            val expected = Result.Error(NetworkError(null))
+            val expected = Result.Error(NetworkError())
             val actual = getHomeListUseCase.getHomeList()
 
             assertEquals(expected = expected, actual = actual)

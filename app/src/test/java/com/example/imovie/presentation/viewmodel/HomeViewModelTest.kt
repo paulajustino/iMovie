@@ -185,7 +185,7 @@ class HomeViewModelTest {
     @Test
     fun dispatchViewAction_OnHomeInitializedAndGetHomeListError_shouldUpdateHomeResultWithError() {
         coroutinesTestRule.testDispatcher.runBlockingTest {
-            prepareScenario(homeListResult = Result.Error(NetworkError(null)))
+            prepareScenario(homeListResult = Result.Error(NetworkError()))
 
             homeViewModel.dispatchViewAction(HomeViewAction.OnHomeInitialized)
 

@@ -98,7 +98,7 @@ class DetailsViewModelTest {
     @Test
     fun dispatchViewAction_OnDetailsInitializedAndGetMovieDetailsError_shouldUpdateDetailsResultWithError() {
         coroutinesTestRule.testDispatcher.runBlockingTest {
-            prepareScenario(detailsResult = Result.Error(NetworkError(null)))
+            prepareScenario(detailsResult = Result.Error(NetworkError()))
 
             detailsViewModel.dispatchViewAction(DetailsViewAction.OnDetailsInitialized("1"))
 

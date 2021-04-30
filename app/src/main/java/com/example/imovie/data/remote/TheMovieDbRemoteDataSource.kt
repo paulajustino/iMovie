@@ -40,7 +40,7 @@ class TheMovieDbDefaultRemoteDataSource @Inject constructor(
                 val data = movieListMapper.mapListFrom(response.body())
                 Result.Success(data)
             } else {
-                Result.Error(NetworkError(null))
+                Result.Error(NetworkError())
             }
         }
     }
@@ -55,7 +55,7 @@ class TheMovieDbDefaultRemoteDataSource @Inject constructor(
                 val data = movieListMapper.mapListFrom(response.body())
                 Result.Success(data)
             } else {
-                Result.Error(NetworkError(null))
+                Result.Error(NetworkError())
             }
         }
     }
@@ -68,7 +68,7 @@ class TheMovieDbDefaultRemoteDataSource @Inject constructor(
                 val data = movieListMapper.mapListFrom(response.body())
                 Result.Success(data)
             } else {
-                Result.Error(NetworkError(null))
+                Result.Error(NetworkError())
             }
         }
     }
@@ -81,7 +81,7 @@ class TheMovieDbDefaultRemoteDataSource @Inject constructor(
                 val data = movieListMapper.mapListFrom(response.body())
                 Result.Success(data)
             } else {
-                Result.Error(NetworkError(null))
+                Result.Error(NetworkError())
             }
         }
     }
@@ -98,7 +98,7 @@ class TheMovieDbDefaultRemoteDataSource @Inject constructor(
                 val data = movieDetailsMapper.mapFrom(response.body()!!)
                 Result.Success(data)
             } else {
-                Result.Error(NetworkError(null))
+                Result.Error(NetworkError())
             }
         }
     }
