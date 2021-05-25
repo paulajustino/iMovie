@@ -37,4 +37,11 @@ interface TheMovieDbApiService {
         @Query("api_key") apiKey: String,
         @Query("language") language: String
     ): Response<MovieDetailsResponse>
+
+    @GET("movie/{movie_id}/similar")
+    suspend fun getSimilarMovies(
+        @Path("movie_id") movieId: Int,
+        @Query("api_key") apiKey: String,
+        @Query("language") language: String
+    ): Response<MovieListResponse>
 }
