@@ -43,6 +43,7 @@ class DetailsViewModel @Inject constructor(
     override fun dispatchViewAction(viewAction: DetailsViewAction) {
         when (viewAction) {
             is DetailsViewAction.OnDetailsInitialized -> getMovieDetails(viewAction.movieId)
+            is DetailsViewAction.OnSimilarMovieClicked -> openDetails(viewAction.movieId)
         }
     }
 
@@ -67,6 +68,12 @@ class DetailsViewModel @Inject constructor(
                 }
                 is Result.Error -> SimilarResult.Error
             }
+        }
+    }
+
+    private fun openDetails(id: String) {
+        if (!id.isNullOrEmpty()) {
+            viewState.action.value = DetailsViewState.Action.OpenSimilarMovieDetails(id)
         }
     }
 }

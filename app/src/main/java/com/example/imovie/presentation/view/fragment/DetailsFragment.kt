@@ -2,21 +2,21 @@ package com.example.imovie.presentation.view.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.gridlayout.widget.GridLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.imovie.MyApplication
 import com.example.imovie.databinding.FragmentDetailsBinding
 import com.example.imovie.presentation.DetailsViewAction
+import com.example.imovie.presentation.DetailsViewState
 import com.example.imovie.presentation.model.MovieDetailsUiModel
 import com.example.imovie.presentation.model.MovieUiModel
 import com.example.imovie.presentation.viewmodel.DetailsResult
@@ -57,7 +57,6 @@ class DetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.dispatchViewAction(DetailsViewAction.OnDetailsInitialized(args.id))
-
         addObservers()
     }
 
@@ -73,6 +72,16 @@ class DetailsFragment : Fragment() {
                 is SimilarResult.Success -> setSuccessStateOfSimilar(result.movie)
             }
 
+        })
+
+        viewModel.viewState.action.observe(viewLifecycleOwner, Observer { action ->
+            when (action) {
+                is DetailsViewState.Action.OpenSimilarMovieDetails -> {
+                    val detailsAction =
+                        DetailsFragmentDirections.actionDetailsFragmentSelf(action.id)
+                    findNavController().navigate(detailsAction)
+                }
+            }
         })
     }
 
@@ -93,14 +102,17 @@ class DetailsFragment : Fragment() {
                 val imageView = createImageItem(index, columnCount)
                 movie.posterPath?.let { imageView.load(it) }
                 addView(imageView)
+                imageView.setOnClickListener {
+                    viewModel.dispatchViewAction(DetailsViewAction.OnSimilarMovieClicked(movie.id))
+                }
             }
         }
     }
 
-    private fun createImageItem(index: Int, columnCount: Int) : ImageView {
+    private fun createImageItem(index: Int, columnCount: Int): ImageView {
         val imageView = ImageView(context)
-        val row = abs(index/columnCount)
-        val column = index%columnCount
+        val row = abs(index / columnCount)
+        val column = index % columnCount
         val rowSpec = GridLayout.spec(row, GridLayout.FILL, 1F)
         val columnSpec = GridLayout.spec(column, GridLayout.FILL, 1F)
         val params = GridLayout.LayoutParams(rowSpec, columnSpec)
@@ -108,7 +120,7 @@ class DetailsFragment : Fragment() {
         imageView.layoutParams = params
         imageView.adjustViewBounds = true
         imageView.scaleType = ImageView.ScaleType.FIT_XY
-        imageView.setMargin(8,8,8,8)
+        imageView.setMargin(8, 8, 8, 8)
         return imageView
     }
 }
