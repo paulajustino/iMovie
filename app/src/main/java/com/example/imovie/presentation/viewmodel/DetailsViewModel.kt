@@ -55,8 +55,8 @@ class DetailsViewModel @Inject constructor(
 
             viewState.similarResult.value = when (similar) {
                 is Result.Success -> {
-                    similar.value.filter { it.posterPath != null }
-                    SimilarResult.Success(movieListUiModelMapper.mapListFrom(similar.value))
+                    val filteredList = similar.value.filter { it.posterPath != null }
+                    SimilarResult.Success(movieListUiModelMapper.mapListFrom(filteredList))
                 }
                 is Result.Error -> SimilarResult.Error
             }
