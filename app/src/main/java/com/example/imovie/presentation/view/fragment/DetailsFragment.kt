@@ -61,28 +61,30 @@ class DetailsFragment : Fragment() {
     }
 
     private fun addObservers() {
-        viewModel.detailsResult.observe(viewLifecycleOwner, Observer { result ->
-            when (result) {
-                is DetailsResult.Success -> setSuccessStateOfDetails(result.movie)
-            }
-        })
-
-        viewModel.similarResult.observe(viewLifecycleOwner, Observer { result ->
-            when (result) {
-                is SimilarResult.Success -> setSuccessStateOfSimilar(result.movie)
-            }
-
-        })
-
-        viewModel.viewState.action.observe(viewLifecycleOwner, Observer { action ->
-            when (action) {
-                is DetailsViewState.Action.OpenSimilarMovieDetails -> {
-                    val detailsAction =
-                        DetailsFragmentDirections.actionDetailsFragmentSelf(action.id)
-                    findNavController().navigate(detailsAction)
+        with(viewModel.viewState) {
+            detailsResult.observe(viewLifecycleOwner, Observer { result ->
+                when (result) {
+                    is DetailsResult.Success -> setSuccessStateOfDetails(result.movie)
                 }
-            }
-        })
+            })
+
+            similarResult.observe(viewLifecycleOwner, Observer { result ->
+                when (result) {
+                    is SimilarResult.Success -> setSuccessStateOfSimilar(result.movie)
+                }
+
+            })
+
+            action.observe(viewLifecycleOwner, Observer { action ->
+                when (action) {
+                    is DetailsViewState.Action.OpenSimilarMovieDetails -> {
+                        val detailsAction =
+                            DetailsFragmentDirections.actionDetailsFragmentSelf(action.id)
+                        findNavController().navigate(detailsAction)
+                    }
+                }
+            })
+        }
     }
 
     private fun setSuccessStateOfDetails(movie: MovieDetailsUiModel) {
@@ -98,7 +100,7 @@ class DetailsFragment : Fragment() {
     private fun setSuccessStateOfSimilar(movies: List<MovieUiModel>) {
         with(bindingDetailsFragment.similarMovies.root) {
             removeAllViews()
-            movies.take(6).forEachIndexed { index, movie ->
+            movies.forEachIndexed { index, movie ->
                 val imageView = createImageItem(index, columnCount)
                 movie.posterPath?.let { imageView.load(it) }
                 addView(imageView)

@@ -1,6 +1,5 @@
 package com.example.imovie.presentation.viewmodel
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.imovie.domain.usecase.GetDetailsUseCase
 import com.example.imovie.domain.usecase.GetSimilarMoviesUseCase
@@ -37,36 +36,43 @@ class DetailsViewModel @Inject constructor(
     override val viewState: DetailsViewState
 ) : BaseViewModel<DetailsViewState, DetailsViewAction>() {
 
-    val detailsResult = MutableLiveData<DetailsResult>()
-    val similarResult = MutableLiveData<SimilarResult>()
-
     override fun dispatchViewAction(viewAction: DetailsViewAction) {
         when (viewAction) {
-            is DetailsViewAction.OnDetailsInitialized -> getMovieDetails(viewAction.movieId)
+            is DetailsViewAction.OnDetailsInitialized -> init(viewAction.movieId)
             is DetailsViewAction.OnSimilarMovieClicked -> openDetails(viewAction.movieId)
         }
     }
 
-    private fun getMovieDetails(id: String) {
-        detailsResult.value = DetailsResult.Loading
-        similarResult.value = SimilarResult.Loading
+    private fun init(id: String) {
+        getMovieDetails(id)
+        getSimilarMovies(id)
+    }
+
+    private fun getSimilarMovies(id: String) {
+        viewState.similarResult.value = SimilarResult.Loading
         viewModelScope.launch {
             val similar = getSimilarUseCase.getSimilarMovies(id)
-            val details = getDetailsUseCase.getDetails(id)
 
-            detailsResult.value = when (details) {
-                is Result.Success -> {
-                    DetailsResult.Success(movieDetailsUiModelMapper.mapFrom(details.value))
-                }
-                is Result.Error -> DetailsResult.Error
-            }
-
-            similarResult.value = when (similar) {
+            viewState.similarResult.value = when (similar) {
                 is Result.Success -> {
                     similar.value.filter { it.posterPath != null }
                     SimilarResult.Success(movieListUiModelMapper.mapListFrom(similar.value))
                 }
                 is Result.Error -> SimilarResult.Error
+            }
+        }
+    }
+
+    private fun getMovieDetails(id: String) {
+        viewState.detailsResult.value = DetailsResult.Loading
+        viewModelScope.launch {
+            val details = getDetailsUseCase.getDetails(id)
+
+            viewState.detailsResult.value = when (details) {
+                is Result.Success -> {
+                    DetailsResult.Success(movieDetailsUiModelMapper.mapFrom(details.value))
+                }
+                is Result.Error -> DetailsResult.Error
             }
         }
     }

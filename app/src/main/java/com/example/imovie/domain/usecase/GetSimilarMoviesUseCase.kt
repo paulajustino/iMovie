@@ -22,7 +22,7 @@ class GetSimilarMovies @Inject constructor(
         return withContext(dispatcherProvider.io()) {
             val similarMovies = theMovieDbRepository.getSimilarMovies(movieId)
             if (similarMovies is Result.Success && similarMovies.value.isNotEmpty()) {
-                val similar = similarMovies.value
+                val similar = similarMovies.value.take(6)
                 return@withContext Result.Success(similar)
             } else {
                 return@withContext Result.Error(NetworkError())
