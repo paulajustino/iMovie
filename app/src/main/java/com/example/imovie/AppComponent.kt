@@ -2,7 +2,7 @@ package com.example.imovie
 
 import android.content.Context
 import com.example.imovie.di.ApiModule
-import com.example.imovie.di.HomeListModule
+import com.example.imovie.di.AppListModule
 import com.example.imovie.di.ProviderModule
 import com.example.imovie.presentation.view.fragment.DetailsFragment
 import com.example.imovie.presentation.view.fragment.HomeFragment
@@ -11,7 +11,7 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [ApiModule::class, ProviderModule::class, HomeListModule::class])
+@Component(modules = [ApiModule::class, ProviderModule::class, AppListModule::class])
 interface AppComponent {
 
     @Component.Factory

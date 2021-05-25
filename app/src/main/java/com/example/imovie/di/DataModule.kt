@@ -9,7 +9,7 @@ import dagger.Binds
 import dagger.Module
 
 @Module
-interface HomeDataModule {
+interface DataModule {
 
     @Binds
     fun bindsTheMovieDbRepository(theMovieDbDefaultRepository: TheMovieDbDefaultRepository): TheMovieDbRepository

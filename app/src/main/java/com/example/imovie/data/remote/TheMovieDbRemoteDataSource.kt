@@ -23,6 +23,8 @@ interface TheMovieDbRemoteDataSource {
     suspend fun getUpcomingMovies(): Result<List<MovieModel>, NetworkError>
 
     suspend fun getMovieDetails(movieId: String): Result<MovieDetailsModel?, NetworkError>
+
+    suspend fun getSimilarMovies(movieId: String): Result<List<MovieModel>, NetworkError>
 }
 
 class TheMovieDbDefaultRemoteDataSource @Inject constructor(
@@ -96,6 +98,23 @@ class TheMovieDbDefaultRemoteDataSource @Inject constructor(
                 )
             if (response.isSuccessful && response.body() != null) {
                 val data = movieDetailsMapper.mapFrom(response.body()!!)
+                Result.Success(data)
+            } else {
+                Result.Error(NetworkError())
+            }
+        }
+    }
+
+    override suspend fun getSimilarMovies(movieId: String): Result<List<MovieModel>, NetworkError> {
+        return withContext(dispatcherProvider.io()) {
+            val response = theMovieDbApiService.getSimilarMovies(
+                Integer.parseInt(movieId),
+                Constants.API_KEY,
+                Constants.LANGUAGE
+            )
+
+            if (response.isSuccessful && response.body() != null) {
+                val data = movieListMapper.mapListFrom(response.body())
                 Result.Success(data)
             } else {
                 Result.Error(NetworkError())
