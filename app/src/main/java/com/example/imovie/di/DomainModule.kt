@@ -14,5 +14,5 @@ interface DomainModule {
     fun bindsGetDetailsUseCase(getDetails: GetDetails): GetDetailsUseCase
 
     @Binds
-    fun bindsGetSimilarUseCase(getSimilar: GetSimilar): GetSimilarUseCase
+    fun bindsGetSimilarMoviesUseCase(getSimilarMovies: GetSimilarMovies): GetSimilarMoviesUseCase
 }
