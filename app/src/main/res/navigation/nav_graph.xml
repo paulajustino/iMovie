@@ -24,5 +24,8 @@
         <argument
             android:name="id"
             app:argType="string" />
+        <action
+            android:id="@+id/action_detailsFragment_self"
+            app:destination="@id/detailsFragment" />
     </fragment>
 </navigation>
