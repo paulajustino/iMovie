@@ -1,6 +1,5 @@
 package com.example.imovie.data.remote
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.imovie.data.api.MovieDetailsResponse
 import com.example.imovie.data.api.MovieListResponse
 import com.example.imovie.data.api.MovieResponse
@@ -10,7 +9,6 @@ import com.example.imovie.data.mapper.MovieListResponseToMovieModelMapper
 import com.example.imovie.domain.model.MovieDetailsModel
 import com.example.imovie.domain.model.MovieModel
 import com.example.imovie.utils.CoroutinesTestRule
-import com.example.imovie.utils.DispatcherProvider
 import com.example.imovie.utils.NetworkError
 import com.example.imovie.utils.Result
 import io.mockk.coEvery
@@ -28,20 +26,16 @@ import kotlin.test.assertEquals
 class TheMovieDbRemoteDataSourceTest {
 
     @get:Rule
-    val instantTest = InstantTaskExecutorRule()
-
-    @get:Rule
     val coroutinesTestRule = CoroutinesTestRule()
 
     private val theMovieDbApiService: TheMovieDbApiService = mockk()
     private val movieListMapper: MovieListResponseToMovieModelMapper = mockk()
     private val movieDetailsMapper: MovieDetailsResponseToMovieDetailsModelMapper = mockk()
-    private val dispatcherProvider: DispatcherProvider = mockk()
     private val theMovieDbRemoteDataSource = TheMovieDbDefaultRemoteDataSource(
         theMovieDbApiService = theMovieDbApiService,
         movieListMapper = movieListMapper,
         movieDetailsMapper = movieDetailsMapper,
-        dispatcherProvider = dispatcherProvider
+        dispatcherProvider = coroutinesTestRule.testDispatcherProvider
     )
 
     @Test
@@ -49,12 +43,12 @@ class TheMovieDbRemoteDataSourceTest {
         coroutinesTestRule.testDispatcher.runBlockingTest {
             val movieResponse = MovieResponse(
                 id = 1,
-                posterPath = "posterTeste"
+                posterPath = "posterTest"
             )
 
             val movieModel = MovieModel(
                 id = "1",
-                posterPath = "posterTeste"
+                posterPath = "posterTest"
             )
 
             prepareScenario(
@@ -74,12 +68,12 @@ class TheMovieDbRemoteDataSourceTest {
         coroutinesTestRule.testDispatcher.runBlockingTest {
             val movieResponse = MovieResponse(
                 id = 1,
-                posterPath = "posterTeste"
+                posterPath = "posterTest"
             )
 
             val movieModel = MovieModel(
                 id = "1",
-                posterPath = "posterTeste"
+                posterPath = "posterTest"
             )
 
             prepareScenario(
@@ -99,12 +93,12 @@ class TheMovieDbRemoteDataSourceTest {
         coroutinesTestRule.testDispatcher.runBlockingTest {
             val movieResponse = MovieResponse(
                 id = 1,
-                posterPath = "posterTeste"
+                posterPath = "posterTest"
             )
 
             val movieModel = MovieModel(
                 id = "1",
-                posterPath = "posterTeste"
+                posterPath = "posterTest"
             )
 
             prepareScenario(
@@ -124,12 +118,12 @@ class TheMovieDbRemoteDataSourceTest {
         coroutinesTestRule.testDispatcher.runBlockingTest {
             val movieResponse = MovieResponse(
                 id = 1,
-                posterPath = "posterTeste"
+                posterPath = "posterTest"
             )
 
             val movieModel = MovieModel(
                 id = "1",
-                posterPath = "posterTeste"
+                posterPath = "posterTest"
             )
 
             prepareScenario(
@@ -150,7 +144,7 @@ class TheMovieDbRemoteDataSourceTest {
             val movieDetailsResponse = MovieDetailsResponse(
                 id = 1,
                 backdropPath = null,
-                title = "titleTeste",
+                title = "titleTest",
                 overview = null,
                 release = "2019-10-12",
                 runtime = 140
@@ -159,7 +153,7 @@ class TheMovieDbRemoteDataSourceTest {
             val movieDetailsModel = MovieDetailsModel(
                 id = "1",
                 backdropPath = null,
-                title = "titleTeste",
+                title = "titleTest",
                 overview = null,
                 release = "2019-10-12",
                 runtime = 140
@@ -182,7 +176,7 @@ class TheMovieDbRemoteDataSourceTest {
         coroutinesTestRule.testDispatcher.runBlockingTest {
             val movieResponse = MovieResponse(
                 id = 1,
-                posterPath = "posterTeste"
+                posterPath = "posterTest"
             )
 
             prepareScenario(
@@ -202,7 +196,7 @@ class TheMovieDbRemoteDataSourceTest {
         coroutinesTestRule.testDispatcher.runBlockingTest {
             val movieResponse = MovieResponse(
                 id = 1,
-                posterPath = "posterTeste"
+                posterPath = "posterTest"
             )
 
             prepareScenario(
@@ -222,7 +216,7 @@ class TheMovieDbRemoteDataSourceTest {
         coroutinesTestRule.testDispatcher.runBlockingTest {
             val movieResponse = MovieResponse(
                 id = 1,
-                posterPath = "posterTeste"
+                posterPath = "posterTest"
             )
 
             prepareScenario(
@@ -242,7 +236,7 @@ class TheMovieDbRemoteDataSourceTest {
         coroutinesTestRule.testDispatcher.runBlockingTest {
             val movieResponse = MovieResponse(
                 id = 1,
-                posterPath = "posterTeste"
+                posterPath = "posterTest"
             )
 
             prepareScenario(
@@ -263,7 +257,7 @@ class TheMovieDbRemoteDataSourceTest {
             val movieDetailsResponse = MovieDetailsResponse(
                 id = 1,
                 backdropPath = null,
-                title = "titleTeste",
+                title = "titleTest",
                 overview = null,
                 release = "2019-10-12",
                 runtime = 140
@@ -367,23 +361,23 @@ class TheMovieDbRemoteDataSourceTest {
         movieListMapperResult: List<MovieModel> = emptyList(),
         movieDetailsMapperResult: MovieDetailsModel = MovieDetailsModel(
             id = "1",
-            backdropPath = "backdropTeste",
-            title = "titleTeste",
-            overview = "overviewTeste",
+            backdropPath = "backdropTest",
+            title = "titleTest",
+            overview = "overviewTest",
             release = "2019-10-12",
             runtime = 140
         ),
         movieDetailsResponse: MovieDetailsResponse = MovieDetailsResponse(
             id = 1,
-            backdropPath = "backdropTeste",
-            title = "titleTeste",
-            overview = "overviewTeste",
+            backdropPath = "backdropTest",
+            title = "titleTest",
+            overview = "overviewTest",
             release = "2019-10-12",
             runtime = 140
         ),
         movieResponse: MovieResponse = MovieResponse(
             id = 1,
-            posterPath = "posterTeste"
+            posterPath = "posterTest"
         ),
         movieListResponse: MovieListResponse = MovieListResponse(listOf(movieResponse)),
         popularMoviesResult: Response<MovieListResponse> = Response.success(movieListResponse),
@@ -392,10 +386,6 @@ class TheMovieDbRemoteDataSourceTest {
         upcomingMoviesResult: Response<MovieListResponse> = Response.success(movieListResponse),
         movieDetailsResult: Response<MovieDetailsResponse> = Response.success(movieDetailsResponse)
     ) {
-        coEvery {
-            dispatcherProvider.io()
-        } returns coroutinesTestRule.testDispatcher
-
         coEvery {
             theMovieDbApiService.getPopularMovies(any(), any())
         } returns popularMoviesResult
