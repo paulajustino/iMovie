@@ -1,6 +1,5 @@
 package com.example.imovie.presentation.viewmodel
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.imovie.domain.usecase.GetHomeListUseCase
 import com.example.imovie.presentation.HomeViewAction
@@ -29,9 +28,6 @@ class HomeViewModel @Inject constructor(
     override val viewState: HomeViewState
 ) : BaseViewModel<HomeViewState, HomeViewAction>() {
 
-    val homeResult = MutableLiveData<HomeResult>()
-    val homeHeaderResult = MutableLiveData<MovieUiModel>()
-
     override fun dispatchViewAction(viewAction: HomeViewAction) {
         when (viewAction) {
             is HomeViewAction.OnHomeMovieClicked -> openHeaderDetails()
@@ -42,11 +38,11 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getHomeList() {
-        homeResult.value = HomeResult.Loading
+        viewState.homeResult.value = HomeResult.Loading
         viewModelScope.launch {
             val result = getHomeListUseCase.getHomeList()
 
-            homeResult.value = when (result) {
+            viewState.homeResult.value = when (result) {
                 is Result.Success -> {
                     result.value.filter { it.listMovies.isNotEmpty() }
                         .randomOrNull()?.listMovies?.randomOrNull()?.let {
@@ -61,7 +57,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun setHeaderMovie(movie: MovieUiModel) {
-        homeHeaderResult.value = movie
+        viewState.homeHeaderResult.value = movie
     }
 
     private fun addFavoriteMovies() {
@@ -69,14 +65,14 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun openHeaderDetails() {
-        val movieId = this.homeHeaderResult.value?.id
+        val movieId = this.viewState.homeHeaderResult.value?.id
         if (!movieId.isNullOrEmpty()) {
             viewState.action.value = HomeViewState.Action.OpenDetails(movieId)
         }
     }
 
     private fun openDetails(id: String) {
-        if (!id.isNullOrEmpty()) {
+        if (id.isNotEmpty()) {
             viewState.action.value = HomeViewState.Action.OpenDetails(id)
         }
     }
