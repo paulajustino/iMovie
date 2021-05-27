@@ -85,7 +85,7 @@ class HomeFragment : Fragment(), HomeAdapterListener {
     }
 
     private fun addObservers() {
-        viewModel.homeResult.observe(viewLifecycleOwner, Observer { result ->
+        viewModel.viewState.homeResult.observe(viewLifecycleOwner, Observer { result ->
             when (result) {
                 is HomeResult.Success -> {
                     adapterSection.submitList(result.sections)
@@ -96,7 +96,7 @@ class HomeFragment : Fragment(), HomeAdapterListener {
             }
         })
 
-        viewModel.homeHeaderResult.observe(viewLifecycleOwner, Observer { result ->
+        viewModel.viewState.homeHeaderResult.observe(viewLifecycleOwner, Observer { result ->
             addImageOnHeader(result)
         })
 

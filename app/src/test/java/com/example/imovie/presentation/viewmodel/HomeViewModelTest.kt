@@ -49,7 +49,7 @@ class HomeViewModelTest {
             val sectionModelList = listOf(
                 SectionModel(
                     id = "1",
-                    titleSection = "sectionTeste",
+                    titleSection = "sectionTest",
                     listMovies = emptyList()
                 )
             )
@@ -57,7 +57,7 @@ class HomeViewModelTest {
             val sectionUiModelList = listOf(
                 SectionUiModel(
                     id = "1",
-                    titleSection = "sectionTeste",
+                    titleSection = "sectionTest",
                     listMovies = emptyList()
                 )
             )
@@ -71,7 +71,7 @@ class HomeViewModelTest {
 
             homeViewModel.dispatchViewAction(HomeViewAction.OnHomeInitialized)
 
-            assertEquals(expected = expected, actual = homeViewModel.homeResult.value)
+            assertEquals(expected = expected, actual = homeViewModel.viewState.homeResult.value)
         }
     }
 
@@ -81,14 +81,14 @@ class HomeViewModelTest {
             val movieModelList = listOf(
                 MovieModel(
                     id = "1",
-                    posterPath = "posterPathTeste"
+                    posterPath = "posterPathTest"
                 )
             )
 
             val sectionModelList = listOf(
                 SectionModel(
                     id = "1",
-                    titleSection = "sectionTeste",
+                    titleSection = "sectionTest",
                     listMovies = movieModelList
                 )
             )
@@ -109,21 +109,21 @@ class HomeViewModelTest {
             val movieModelList = listOf(
                 MovieModel(
                     id = "1",
-                    posterPath = "posterPathTeste"
+                    posterPath = "posterPathTest"
                 )
             )
 
             val sectionModelList = listOf(
                 SectionModel(
                     id = "1",
-                    titleSection = "sectionTeste",
+                    titleSection = "sectionTest",
                     listMovies = movieModelList
                 )
             )
 
             val movieUiModelMapperResult = MovieUiModel(
                 id = "1",
-                posterPath = "posterPathTeste"
+                posterPath = "posterPathTest"
             )
 
             prepareScenario(
@@ -135,10 +135,13 @@ class HomeViewModelTest {
 
             val expected = MovieUiModel(
                 id = "1",
-                posterPath = "posterPathTeste"
+                posterPath = "posterPathTest"
             )
 
-            assertEquals(expected = expected, actual = homeViewModel.homeHeaderResult.value)
+            assertEquals(
+                expected = expected,
+                actual = homeViewModel.viewState.homeHeaderResult.value
+            )
         }
     }
 
@@ -148,7 +151,7 @@ class HomeViewModelTest {
             val sectionModelList = listOf(
                 SectionModel(
                     id = "1",
-                    titleSection = "sectionTeste",
+                    titleSection = "sectionTest",
                     listMovies = emptyList()
                 )
             )
@@ -157,7 +160,7 @@ class HomeViewModelTest {
 
             homeViewModel.dispatchViewAction(HomeViewAction.OnHomeInitialized)
 
-            assertNull(actual = homeViewModel.homeHeaderResult.value)
+            assertNull(actual = homeViewModel.viewState.homeHeaderResult.value)
         }
     }
 
@@ -167,7 +170,7 @@ class HomeViewModelTest {
             val sectionModelList = listOf(
                 SectionModel(
                     id = "1",
-                    titleSection = "sectionTeste",
+                    titleSection = "sectionTest",
                     listMovies = emptyList()
                 )
             )
@@ -191,15 +194,15 @@ class HomeViewModelTest {
 
             val expected = HomeResult.Error
 
-            assertEquals(expected = expected, actual = homeViewModel.homeResult.value)
+            assertEquals(expected = expected, actual = homeViewModel.viewState.homeResult.value)
         }
     }
 
     @Test
     fun dispatchViewAction_OnHomeMovieClickedAndMovieUiModelIsNotNull_shouldUpdateViewStateWithOpenDetails() {
-        homeViewModel.homeHeaderResult.value = MovieUiModel(
+        homeViewModel.viewState.homeHeaderResult.value = MovieUiModel(
             id = "1",
-            posterPath = "posterPathTeste"
+            posterPath = "posterPathTest"
         )
 
         homeViewModel.dispatchViewAction(HomeViewAction.OnHomeMovieClicked)
@@ -209,7 +212,7 @@ class HomeViewModelTest {
 
     @Test
     fun dispatchViewAction_OnHomeMovieClickedAndMovieUiModelIsNull_shouldNotUpdateViewStateWithOpenDetails() {
-        homeViewModel.homeHeaderResult.value = null
+        homeViewModel.viewState.homeHeaderResult.value = null
 
         homeViewModel.dispatchViewAction(HomeViewAction.OnHomeMovieClicked)
 
@@ -236,12 +239,12 @@ class HomeViewModelTest {
     private fun prepareScenario(
         movieUiModelMapperResult: MovieUiModel = MovieUiModel(
             id = "1",
-            posterPath = "posterPathTeste"
+            posterPath = "posterPathTest"
         ),
         sectionUiModelMapperResult: List<SectionUiModel> = listOf(
             SectionUiModel(
                 id = "1",
-                titleSection = "sessaoTeste",
+                titleSection = "sessaoTest",
                 listMovies = listOf(movieUiModelMapperResult)
             )
         ),
