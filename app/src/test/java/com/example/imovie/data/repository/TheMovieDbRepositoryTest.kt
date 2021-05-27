@@ -1,6 +1,5 @@
 package com.example.imovie.data.repository
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.imovie.data.remote.TheMovieDbRemoteDataSource
 import com.example.imovie.domain.model.MovieDetailsModel
 import com.example.imovie.domain.model.MovieModel
@@ -17,9 +16,6 @@ import org.junit.Test
 
 @ExperimentalCoroutinesApi
 class TheMovieDbRepositoryTest {
-
-    @get:Rule
-    val instantTest = InstantTaskExecutorRule()
 
     @get:Rule
     val coroutinesTestRule = CoroutinesTestRule()
@@ -115,9 +111,9 @@ class TheMovieDbRepositoryTest {
             prepareScenario(
                 movieDetailsModel = MovieDetailsModel(
                     id = "1",
-                    backdropPath = "backdropTeste",
-                    title = "titleTeste",
-                    overview = "overviewTeste",
+                    backdropPath = "backdropTest",
+                    title = "titleTest",
+                    overview = "overviewTest",
                     release = "2019-10-12",
                     runtime = 140
 
@@ -141,9 +137,9 @@ class TheMovieDbRepositoryTest {
         ),
         movieDetailsModel: MovieDetailsModel? = MovieDetailsModel(
             id = "1",
-            backdropPath = "backdropTeste",
-            title = "titleTeste",
-            overview = "overviewTeste",
+            backdropPath = "backdropTest",
+            title = "titleTest",
+            overview = "overviewTest",
             release = "2019-10-12",
             runtime = 140
         ),

@@ -1,12 +1,9 @@
 package com.example.imovie.domain
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-
 import com.example.imovie.data.repository.TheMovieDbRepository
 import com.example.imovie.domain.model.MovieDetailsModel
 import com.example.imovie.domain.usecase.GetDetails
 import com.example.imovie.utils.CoroutinesTestRule
-import com.example.imovie.utils.DispatcherProvider
 import com.example.imovie.utils.NetworkError
 import com.example.imovie.utils.Result
 import io.mockk.coEvery
@@ -21,16 +18,12 @@ import kotlin.test.assertEquals
 class GetDetailsUseCaseTest {
 
     @get:Rule
-    val instantTest = InstantTaskExecutorRule()
-
-    @get:Rule
     val coroutinesTestRule = CoroutinesTestRule()
 
     private val theMovieDbRepository: TheMovieDbRepository = mockk()
-    private val dispatcherProvider: DispatcherProvider = mockk()
     private val getDetailsUseCase = GetDetails(
         theMovieDbRepository = theMovieDbRepository,
-        dispatcherProvider = dispatcherProvider
+        dispatcherProvider = coroutinesTestRule.testDispatcherProvider
     )
 
     @Test
@@ -99,10 +92,6 @@ class GetDetailsUseCaseTest {
             movieDetailsModel
         )
     ) {
-        coEvery {
-            dispatcherProvider.io()
-        } returns coroutinesTestRule.testDispatcher
-
         coEvery {
             theMovieDbRepository.getMovieDetails(any())
         } returns getMovieDetailsResult

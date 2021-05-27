@@ -1,12 +1,10 @@
 package com.example.imovie.domain
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.imovie.data.repository.TheMovieDbRepository
 import com.example.imovie.domain.model.MovieModel
 import com.example.imovie.domain.model.SectionModel
 import com.example.imovie.domain.usecase.GetHomeList
 import com.example.imovie.utils.CoroutinesTestRule
-import com.example.imovie.utils.DispatcherProvider
 import com.example.imovie.utils.NetworkError
 import com.example.imovie.utils.Result
 import io.mockk.coEvery
@@ -21,16 +19,12 @@ import kotlin.test.assertEquals
 class GetHomeListUseCaseTest {
 
     @get:Rule
-    val instantTest = InstantTaskExecutorRule()
-
-    @get:Rule
     val coroutinesTestRule = CoroutinesTestRule()
 
     private val theMovieDbRepository: TheMovieDbRepository = mockk()
-    private val dispatcherProvider: DispatcherProvider = mockk()
     private val getHomeListUseCase = GetHomeList(
         theMovieDbRepository = theMovieDbRepository,
-        dispatcherProvider = dispatcherProvider
+        dispatcherProvider = coroutinesTestRule.testDispatcherProvider
     )
 
     @Test
@@ -242,10 +236,6 @@ class GetHomeListUseCaseTest {
             )
         )
     ) {
-        coEvery {
-            dispatcherProvider.io()
-        } returns coroutinesTestRule.testDispatcher
-
         coEvery {
             theMovieDbRepository.getPopularMovies()
         } returns popularMovieResult

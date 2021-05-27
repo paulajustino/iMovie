@@ -78,7 +78,7 @@ class DetailsViewModel @Inject constructor(
     }
 
     private fun openDetails(id: String) {
-        if (!id.isNullOrEmpty()) {
+        if (id.isNotEmpty()) {
             viewState.action.value = DetailsViewState.Action.OpenSimilarMovieDetails(id)
         }
     }
