@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.gridlayout.widget.GridLayout
@@ -14,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.imovie.MyApplication
+import com.example.imovie.R
 import com.example.imovie.databinding.FragmentDetailsBinding
 import com.example.imovie.presentation.DetailsViewAction
 import com.example.imovie.presentation.DetailsViewState
@@ -24,6 +26,7 @@ import com.example.imovie.presentation.viewmodel.DetailsViewModel
 import com.example.imovie.presentation.viewmodel.SimilarResult
 import com.example.imovie.utils.load
 import com.example.imovie.utils.setMargin
+import kotlinx.android.synthetic.main.error.view.*
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -65,14 +68,17 @@ class DetailsFragment : Fragment() {
             detailsResult.observe(viewLifecycleOwner, Observer { result ->
                 when (result) {
                     is DetailsResult.Success -> setSuccessStateOfDetails(result.movie)
+                    is DetailsResult.Loading -> setLoadingStateOfDetails()
+                    is DetailsResult.Error -> setErrorStateOfDetails()
                 }
             })
 
             similarResult.observe(viewLifecycleOwner, Observer { result ->
                 when (result) {
                     is SimilarResult.Success -> setSuccessStateOfSimilar(result.movie)
+                    is SimilarResult.Loading -> setLoadingStateOfSimilar()
+                    is SimilarResult.Error -> setErrorStateOfSimilar()
                 }
-
             })
 
             action.observe(viewLifecycleOwner, Observer { action ->
@@ -82,18 +88,62 @@ class DetailsFragment : Fragment() {
                             DetailsFragmentDirections.actionDetailsFragmentSelf(action.id)
                         findNavController().navigate(detailsAction)
                     }
+                    DetailsViewState.Action.OpenFavorites -> TODO()
+                    DetailsViewState.Action.Share -> TODO()
                 }
             })
         }
     }
 
+    private fun setLoadingStateOfDetails() {
+        with(bindingDetailsFragment) {
+            loadingDetails.root.visibility = View.VISIBLE
+            errorDetails.root.visibility = View.GONE
+            groupDetails.isGone = true
+        }
+    }
+
+    private fun setSuccessVisibilityOfDetails() {
+        with(bindingDetailsFragment) {
+            loadingDetails.root.visibility = View.GONE
+            errorDetails.root.visibility = View.GONE
+            groupDetails.isGone = false
+        }
+    }
+
     private fun setSuccessStateOfDetails(movie: MovieDetailsUiModel) {
-        movie.backdropPath?.let { this.bindingDetailsFragment.imageMovie.load(it) }
-        this.bindingDetailsFragment.run {
+        with(bindingDetailsFragment) {
+            movie.backdropPath?.let { imageMovie.load(it) }
             titleMovie.text = movie.title
             overviewMovie.text = movie.overview
             runtimeMovie.text = movie.runtime
             releaseDateMovie.text = movie.release
+        }
+        setSuccessVisibilityOfDetails()
+    }
+
+    private fun setErrorStateOfDetails() {
+        with(bindingDetailsFragment) {
+            loadingDetails.root.visibility = View.GONE
+            errorDetails.root.msg_error.text = getString(R.string.text_msg_error_movie_details)
+            errorDetails.root.visibility = View.VISIBLE
+            groupDetails.isGone = true
+        }
+    }
+
+    private fun setLoadingStateOfSimilar() {
+        with(bindingDetailsFragment) {
+            loadingSimilar.root.visibility = View.VISIBLE
+            errorSimilar.root.visibility = View.GONE
+            groupSimilar.isGone = true
+        }
+    }
+
+    private fun setSuccessVisibilityOfSimilar() {
+        with(bindingDetailsFragment) {
+            loadingSimilar.root.visibility = View.GONE
+            errorSimilar.root.visibility = View.GONE
+            groupSimilar.isGone = false
         }
     }
 
@@ -108,6 +158,17 @@ class DetailsFragment : Fragment() {
                     viewModel.dispatchViewAction(DetailsViewAction.OnSimilarMovieClicked(movie.id))
                 }
             }
+        }
+        setSuccessVisibilityOfSimilar()
+    }
+
+    private fun setErrorStateOfSimilar() {
+        with(bindingDetailsFragment) {
+            loadingSimilar.root.visibility = View.GONE
+            errorSimilar.root.msg_error.text = getString(R.string.text_msg_empty_similar_movies)
+            errorSimilar.root.button_try_again.isGone = true
+            errorSimilar.root.visibility = View.VISIBLE
+            groupSimilar.isGone = true
         }
     }
 
