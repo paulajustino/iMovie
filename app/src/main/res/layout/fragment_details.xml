@@ -5,104 +5,153 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/image_movie"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="2:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/title_movie"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="6dp"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/image_movie" />
-
-        <TextView
-            android:id="@+id/release_date_movie"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            app:layout_constraintStart_toStartOf="@id/title_movie"
-            app:layout_constraintTop_toBottomOf="@id/title_movie" />
-
-        <TextView
-            android:id="@+id/runtime_movie"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            app:layout_constraintStart_toEndOf="@id/release_date_movie"
-            app:layout_constraintTop_toTopOf="@id/release_date_movie" />
-
-        <TextView
-            android:id="@+id/overview_movie"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="6dp"
-            android:layout_marginTop="6dp"
-            android:fontFamily="sans-serif-medium"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toStartOf="parent"
-            app:layout_constraintStart_toStartOf="@id/title_movie"
-            app:layout_constraintTop_toBottomOf="@id/release_date_movie"
-            tools:text="A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground fight clubs forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion." />
-
-        <Button
-            android:id="@+id/button_add_favorite_movie"
-            style="@style/ButtonHome"
-            android:layout_marginTop="6dp"
-            android:drawableTop="@android:drawable/ic_menu_add"
-            android:text="@string/title_favorite_movies"
-            app:layout_constraintEnd_toStartOf="@id/button_share_movie"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/overview_movie" />
-
-        <Button
-            android:id="@+id/button_share_movie"
-            style="@style/ButtonHome"
-            android:layout_marginTop="6dp"
-            android:drawableTop="@android:drawable/ic_menu_share"
-            android:text="@string/text_button_share"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/button_add_favorite_movie"
-            app:layout_constraintTop_toBottomOf="@id/overview_movie" />
-
-        <TextView
-            android:id="@+id/title_similar_movies"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="6dp"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:text="@string/title_similar_movies"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/button_add_favorite_movie" />
+        <include
+            android:id="@+id/loading_details"
+            layout="@layout/loading"
+            android:visibility="gone" />
 
         <include
-            android:id="@+id/similar_movies"
-            layout="@layout/grid_similar_movies"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:layout_marginStart="6dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title_similar_movies" />
+            android:id="@+id/error_details"
+            layout="@layout/error"
+            android:visibility="gone" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:constraint_referenced_ids="image_movie, title_movie, release_date_movie, runtime_movie, overview_movie, button_add_favorite_movie, button_share_movie" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_similar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:constraint_referenced_ids="title_similar_movies, similar_movies" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/image_movie"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="2:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/title_movie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="6dp"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/image_movie" />
+
+            <TextView
+                android:id="@+id/release_date_movie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                app:layout_constraintStart_toStartOf="@id/title_movie"
+                app:layout_constraintTop_toBottomOf="@id/title_movie" />
+
+            <TextView
+                android:id="@+id/runtime_movie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                app:layout_constraintStart_toEndOf="@id/release_date_movie"
+                app:layout_constraintTop_toTopOf="@id/release_date_movie" />
+
+            <TextView
+                android:id="@+id/overview_movie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="6dp"
+                android:layout_marginTop="6dp"
+                android:fontFamily="sans-serif-medium"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@id/title_movie"
+                app:layout_constraintTop_toBottomOf="@id/release_date_movie"
+                tools:text="A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground fight clubs forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion." />
+
+            <Button
+                android:id="@+id/button_add_favorite_movie"
+                style="@style/ButtonHome"
+                android:layout_marginTop="6dp"
+                android:drawableTop="@android:drawable/ic_menu_add"
+                android:text="@string/title_favorite_movies"
+                app:layout_constraintEnd_toStartOf="@id/button_share_movie"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/overview_movie" />
+
+            <Button
+                android:id="@+id/button_share_movie"
+                style="@style/ButtonHome"
+                android:layout_marginTop="6dp"
+                android:drawableTop="@android:drawable/ic_menu_share"
+                android:text="@string/text_button_share"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/button_add_favorite_movie"
+                app:layout_constraintTop_toBottomOf="@id/overview_movie" />
+
+            <TextView
+                android:id="@+id/title_similar_movies"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="6dp"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:text="@string/title_similar_movies"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/button_add_favorite_movie" />
+
+            <include
+                android:id="@+id/loading_similar"
+                layout="@layout/loading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title_similar_movies" />
+
+            <include
+                android:id="@+id/error_similar"
+                layout="@layout/error"
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title_similar_movies" />
+
+            <include
+                android:id="@+id/similar_movies"
+                layout="@layout/grid_similar_movies"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="6dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title_similar_movies" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </ScrollView>
