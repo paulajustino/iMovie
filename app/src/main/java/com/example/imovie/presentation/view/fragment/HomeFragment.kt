@@ -2,15 +2,16 @@ package com.example.imovie.presentation.view.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.imovie.*
+import com.example.imovie.MyApplication
+import com.example.imovie.R
 import com.example.imovie.databinding.FragmentHomeBinding
 import com.example.imovie.presentation.HomeViewAction
 import com.example.imovie.presentation.HomeViewState
@@ -44,6 +45,24 @@ class HomeFragment : Fragment(), HomeAdapterListener {
         (requireActivity().application as? MyApplication)?.appComponent?.inject(this)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_toolbar, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.ic_favorite_movies -> Log.i("HomeFragment", "favorite clicked")
+        }
+        return true
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -64,6 +83,14 @@ class HomeFragment : Fragment(), HomeAdapterListener {
         setClickListeners()
         initializeAdapter()
         addObservers()
+        initializeToolbar()
+    }
+
+    private fun initializeToolbar() {
+        (activity as? AppCompatActivity)?.run {
+            setSupportActionBar(bindingHomeFragment.toolbar)
+            supportActionBar?.setDisplayShowTitleEnabled(false)
+        }
     }
 
     private fun initializeAdapter() {
