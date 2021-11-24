@@ -9,4 +9,5 @@
     <string name="text_button_share">Compartilhar</string>
     <string name="text_msg_error_movie_details">Não foi possível carregar os detalhes deste filme.</string>
     <string name="text_msg_empty_similar_movies">Não foram encontradas opções similares.</string>
+    <string name="text_button_login_google">Login with Google</string>
 </resources>
