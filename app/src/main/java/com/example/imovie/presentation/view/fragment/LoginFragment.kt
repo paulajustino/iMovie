@@ -14,5 +14,5 @@ class LoginFragment : Fragment() {
 
     private val viewModel by viewModels<LoginViewModel> { viewModelProviderFactory }
 
-    private lateinit var bindingLoginFragment: FragmentLoginBinding
+    private lateinit var binding: FragmentLoginBinding
 }
